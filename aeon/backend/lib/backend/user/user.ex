@@ -11,7 +11,7 @@ defmodule Backend.User do
     field :firstname, :string
     field :lastname, :string
     field :patronymic, :string
-    field :gender, :string
+    field :gender, :string, default: "transgender"
     field :city, :string
     field :about, :string
     field :birthdate, :date
@@ -28,6 +28,8 @@ defmodule Backend.User do
         messages: :public,
       }
     field :statistic, :map, default: %{posts: 0, likes: 0}
+
+    has_one :avatar, Backend.User.Photo
 
     has_many :ignoreUsers, Backend.User
     has_many :friends, Backend.User
