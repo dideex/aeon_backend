@@ -1,4 +1,4 @@
-defmodule Backend.Repo.Migrations.CreateTable do
+defmodule Backend.Repo.Migrations.CreateUserTable do
   use Ecto.Migration
 
   def change do
@@ -11,9 +11,10 @@ defmodule Backend.Repo.Migrations.CreateTable do
       add :gender, :string
       add :city, :string
       add :about, :string
-      add :birthdate, :string
-
-      timestamps()
+      add :birthdate, :date
+      add :registered, :date
+      add :policy, :map
+      add :statistic, :map
     end
   end
 end

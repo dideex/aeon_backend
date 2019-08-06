@@ -3,7 +3,7 @@ defmodule Backend.User do
   require Ecto.Query
   # alias Ecto.Changeset
 
-  schema "users" do
+  schema "user" do
     field :username, :string
     field :hash, :string
     field :firstname, :string
@@ -12,7 +12,12 @@ defmodule Backend.User do
     field :gender, :string
     field :city, :string
     field :about, :string
-    field :birthdate, :string
+    field :birthdate, :date
+    field :registered, :date
+    field :policy, :map
+    field :statistic, :map
+
+    has_many :photos, Backend.User.Photo
 
     # has_one :avatar, Backend.User.Avatar
     # has_many :posts, Backend.User.Post
