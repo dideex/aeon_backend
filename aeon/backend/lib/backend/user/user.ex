@@ -14,8 +14,8 @@ defmodule Backend.User do
     field :about, :string
     field :birthdate, :string
 
-    has_one :avatar, Backend.User.Avatar
-    has_many :posts, Backend.User.Post
+    # has_one :avatar, Backend.User.Avatar
+    # has_many :posts, Backend.User.Post
   end
 
   # def changeset(user, params \\ %{}) do
