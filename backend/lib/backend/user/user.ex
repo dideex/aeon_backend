@@ -34,6 +34,8 @@ defmodule Backend.User do
     has_many :ignoreUsers, Backend.User
     has_many :friends, Backend.User
     has_many :photos, Backend.User.Photo
+    has_many :friend_invites, Backend.User.FriendInvite
+    has_many :chat_invites, Backend.User.ChatInvite
 
     # has_one :avatar, Backend.User.Avatar
     # has_many :posts, Backend.User.Post
