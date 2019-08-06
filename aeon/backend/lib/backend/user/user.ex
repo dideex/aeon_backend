@@ -3,7 +3,9 @@ defmodule Backend.User do
   require Ecto.Query
   # alias Ecto.Changeset
 
-  schema "user" do
+  {:ok, now} = DateTime.now("Etc/UTC")
+
+  schema "users" do
     field :username, :string
     field :hash, :string
     field :firstname, :string
@@ -13,10 +15,22 @@ defmodule Backend.User do
     field :city, :string
     field :about, :string
     field :birthdate, :date
-    field :registered, :date
-    field :policy, :map
-    field :statistic, :map
+    field :registered, :date, default: now
+    field :notificationPolicy, :map,
+      default: %{
+        show_friend_request: :true,
+        show_photo_rating: true,
+        show_new_post: :true,
+      }
+    field :policy, :map,
+      default: %{
+        profile: :public,
+        messages: :public,
+      }
+    field :statistic, :map, default: %{posts: 0, likes: 0}
 
+    has_many :ignoreUsers, Backend.User
+    has_many :friends, Backend.User
     has_many :photos, Backend.User.Photo
 
     # has_one :avatar, Backend.User.Avatar

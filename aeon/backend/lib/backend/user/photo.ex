@@ -4,11 +4,12 @@ defmodule Backend.User.Photo do
 
   {:ok, now} = DateTime.now("Etc/UTC")
 
-  schema "photo" do
+  schema "photos" do
     field :title, :string
     field :url, :string
     field :date, :date, default: now
 
     belongs_to :user, Backend.User
+    has_many :likes, Backend.User
   end
 end

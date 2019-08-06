@@ -14,6 +14,7 @@ defmodule Backend.Repo.Migrations.CreateUserTable do
       add :birthdate, :date
       add :registered, :date
       add :policy, :map
+      add :notificationPolicy, :map
       add :statistic, :map
     end
   end
