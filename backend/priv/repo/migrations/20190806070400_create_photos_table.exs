@@ -3,10 +3,11 @@ defmodule Backend.Repo.Migrations.CreatePhotosTable do
 
   def change do
     create table(:photos) do
-      add :title, :string
-      add :url, :string
-      add :date, :date
-      add :user_id, references(:users)
+      add(:title, :string)
+      add(:url, :string)
+      add(:user_id, references(:users))
+
+      timestamps()
     end
   end
 end

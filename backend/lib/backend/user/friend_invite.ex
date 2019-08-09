@@ -5,9 +5,9 @@ defmodule Backend.User.FriendInvite do
   {:ok, now} = DateTime.now("Etc/UTC")
 
   schema "friend_invites" do
-    field :date, :date, default: now
+    field(:date, :date, default: now)
 
-    belongs_to :user, Backend.User
-    has_one :sender, Backend.User
+    belongs_to(:user, Backend.User)
+    has_one(:sender, Backend.User)
   end
 end
