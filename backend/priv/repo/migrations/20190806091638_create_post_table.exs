@@ -6,8 +6,9 @@ defmodule Backend.Repo.Migrations.CreatePostTable do
       add(:title, :string)
       add(:body, :string)
       add(:views, :integer)
-      add(:date, :date)
       add(:user_id, references(:users))
+      timestamps()
+
     end
   end
 end

@@ -5,8 +5,8 @@ defmodule Backend.Repo.Migrations.CreateMessagesTable do
     create table(:messages) do
       add(:body, :string)
       add(:unread, :boolean)
-      add(:date, :date)
       add(:user_id, references(:users))
+      timestamps()
     end
   end
 end
