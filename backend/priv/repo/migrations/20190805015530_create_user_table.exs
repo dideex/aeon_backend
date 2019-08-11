@@ -16,6 +16,7 @@ defmodule Backend.Repo.Migrations.CreateUserTable do
       add(:policy, :map)
       add(:notificationPolicy, :map)
       add(:statistic, :map)
+      timestamps([{:inserted_at, :created_at}, {:updated_at, false}, {:created_at, false}])
     end
   end
 end
