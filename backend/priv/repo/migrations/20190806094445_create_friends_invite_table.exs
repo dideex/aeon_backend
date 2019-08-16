@@ -3,7 +3,7 @@ defmodule Backend.Repo.Migrations.CreateFriendsInviteTable do
 
   def change do
     create table(:friend_invites) do
-      # add(:user_id, references(:users))
+      add(:user_id, references(:users))
 
       timestamps(inserted_at: :created_at)
     end

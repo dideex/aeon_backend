@@ -1,4 +1,4 @@
-defmodule Backend.User.Message do
+defmodule Backend.Chat.Message do
   use Ecto.Schema
   require Ecto.Query
 

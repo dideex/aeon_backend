@@ -1,4 +1,4 @@
-defmodule Backend.User.ChatInvite do
+defmodule Backend.Chat.ChatInvite do
   use Ecto.Schema
   require Ecto.Query
 
