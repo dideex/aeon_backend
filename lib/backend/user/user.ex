@@ -4,7 +4,7 @@ defmodule Backend.User do
   # alias Ecto.Changeset
 
   schema "users" do
-    field(:username, :string)
+    field(:username, :string, unique: true)
     field(:hash, :string)
     field(:firstname, :string)
     field(:lastname, :string)
@@ -13,15 +13,13 @@ defmodule Backend.User do
     field(:city, :string)
     field(:about, :string)
     field(:birthdate, :date)
-
-    # field(:notificationPolicy, :map,
-    #   default: %{
-    #     show_friend_request: true,
-    #     show_photo_rating: true,
-    #     show_new_post: true
-    #   }
-    # )
-
+    field(:notificationPolicy, :map,
+      default: %{
+        show_friend_request: true,
+        show_photo_rating: true,
+        show_new_post: true
+      }
+    )
     field(:policy, :map,
       default: %{
         profile: :public,
@@ -38,7 +36,7 @@ defmodule Backend.User do
     has_many(:photos, Backend.User.Photo)
     has_many(:friend_invites, Backend.User.FriendInvite)
     has_many(:chat_invites, Backend.User.ChatInvite)
-    timestamps([{:inserted_at, :created_at}, {:updated_at, false}, {:created_at, false}])
+    timestamps(:inserted_at, :created_at)
 
     # has_one :avatar, Backend.User.Avatar
     # has_many :posts, Backend.User.Post
