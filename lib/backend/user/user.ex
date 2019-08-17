@@ -4,7 +4,6 @@ defmodule Backend.User do
   alias Backend.User.{Photo, FriendInvite}
   alias Backend.Chat.ChatInvite
   import Ecto.Changeset
-  # alias Ecto.Changeset
 
   @required_fields ~w(username firstname lastname birthdate hash)a
   @optional_fields ~w(gender patronymic city about)a

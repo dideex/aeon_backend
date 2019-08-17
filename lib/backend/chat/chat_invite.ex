@@ -1,7 +1,6 @@
 defmodule Backend.Chat.ChatInvite do
   use Ecto.Schema
-  require Ecto.Query
-
+  import Ecto.Changeset
 
   schema "chat_invites" do
     belongs_to(:user, Backend.User)
@@ -9,5 +8,10 @@ defmodule Backend.Chat.ChatInvite do
     has_one(:sender, Backend.User)
 
     timestamps(inserted_at: :created_at)
+  end
+
+  def changeset(invite, attrs) do
+    invite
+    |> assoc_constraint(:user)
   end
 end
