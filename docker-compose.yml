@@ -5,16 +5,24 @@ services:
     volumes:
       - ./db_data:/data
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       PGDATA: /data
       POSTGRES_DB: aeon_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      
+
   db_nosql_redis:
     image: redis:alpine
     volumes:
       - ./db_data:/redis
     ports:
-      - "6389:6379"
+      - '6389:6379'
+
+  db_posgres_pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - '80:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: postgres
+      PGADMIN_DEFAULT_PASSWORD: postgres

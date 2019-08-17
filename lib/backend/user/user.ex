@@ -38,15 +38,13 @@ defmodule Backend.User do
 
     has_one(:avatar, Photo)
 
-    has_many(:ignoreUsers, Backend.User)
     has_many(:friends, Backend.User)
+    has_many(:ignoreUsers, Backend.User)
     has_many(:photos, Photo)
     has_many(:friend_invites, FriendInvite)
     has_many(:chat_invites, ChatInvite)
 
     timestamps(inserted_at: :created_at)
-    # has_one :avatar, Backend.User.Avatar
-    # has_many :posts, Backend.User.Post
   end
 
   # def changeset(user, params \\ %{}) do
