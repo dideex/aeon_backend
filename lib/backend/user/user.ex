@@ -3,6 +3,7 @@ defmodule Backend.User do
   require Ecto.Query
   alias Backend.User.{Photo, FriendInvite}
   alias Backend.Chat.ChatInvite
+  import Ecto.Changeset
   # alias Ecto.Changeset
 
   @required_fields ~w(username firstname lastname birthdate hash)a
@@ -10,7 +11,7 @@ defmodule Backend.User do
 
   schema "users" do
     field(:username, :string, unique: true)
-    field(:hash, :string)
+    field(:password, :string)
     field(:firstname, :string)
     field(:lastname, :string)
     field(:patronymic, :string)
@@ -47,12 +48,12 @@ defmodule Backend.User do
     timestamps(inserted_at: :created_at)
   end
 
-  # def changeset(user, params \\ %{}) do
-  #   user
-  #     |> Changeset.cast(params, [:email, :name, :password, :age])
-  #     |> Changeset.validate_required([:name, :password])
-  #     |> Changeset.validate_length(:name, min: 3)
-  # end
+  def changeset(user, attrs \\ {}) do
+    user
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+    |> unique_constraint(:username)
+  end
 
   def get_first_record do
     Backend.Repo.one(Ecto.Query.from(u in __MODULE__, order_by: [asc: u.id], limit: 1))

@@ -9,6 +9,8 @@ defmodule Backend.Repo.Migrations.CreateNotificationTable do
       add(:body, :string)
 
       add(:user_id, references(:users))
+
+      timestamps(inserted_at: :created_at)
     end
   end
 end

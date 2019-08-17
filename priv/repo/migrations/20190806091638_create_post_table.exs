@@ -7,8 +7,8 @@ defmodule Backend.Repo.Migrations.CreatePostTable do
       add(:body, :string)
       add(:views, :integer)
       add(:user_id, references(:users))
-      timestamps()
 
+      timestamps(inserted_at: :created_at)
     end
   end
 end

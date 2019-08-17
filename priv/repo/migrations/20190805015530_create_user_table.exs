@@ -4,7 +4,7 @@ defmodule Backend.Repo.Migrations.CreateUserTable do
   def change do
     create table(:users) do
       add(:username, :string)
-      add(:hash, :string)
+      add(:password, :string)
       add(:firstname, :string)
       add(:lastname, :string)
       add(:patronymic, :string)
@@ -12,10 +12,10 @@ defmodule Backend.Repo.Migrations.CreateUserTable do
       add(:city, :string)
       add(:about, :string)
       add(:birthdate, :date)
-      add(:registered, :date)
       add(:policy, :map)
       add(:notificationPolicy, :map)
       add(:statistic, :map)
+
       timestamps(inserted_at: :created_at)
     end
 

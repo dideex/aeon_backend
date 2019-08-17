@@ -7,7 +7,8 @@ defmodule Backend.Repo.Migrations.CreateMessagesTable do
       add(:unread, :boolean)
       add(:user_id, references(:users))
       add(:chat_id, references(:chats))
-      timestamps()
+
+      timestamps(inserted_at: :created_at)
     end
   end
 end

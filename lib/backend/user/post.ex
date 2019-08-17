@@ -7,7 +7,8 @@ defmodule Backend.User.Post do
     field(:title, :string)
     field(:body, :string)
     field(:views, :integer, default: 0)
-    timestamps()
+
+    timestamps(inserted_at: :created_at)
 
     belongs_to(:user, Backend.User)
     has_many(:likes, Backend.User)

@@ -9,5 +9,7 @@ defmodule Backend.User.Notification do
     field(:body, :string)
 
     belongs_to(:user, Backend.User)
+
+    timestamps(inserted_at: :created_at)
   end
 end

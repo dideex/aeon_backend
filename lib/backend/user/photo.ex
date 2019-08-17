@@ -9,6 +9,6 @@ defmodule Backend.User.Photo do
     belongs_to(:user, Backend.User)
     has_many(:likes, Backend.User)
 
-    timestamps()
+    timestamps(inserted_at: :created_at)
   end
 end

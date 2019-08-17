@@ -6,9 +6,10 @@ defmodule Backend.Chat.Message do
   schema "messages" do
     field(:body, :string)
     field(:unread, :boolean, default: true)
-    timestamps()
 
     belongs_to(:user, Backend.User)
     has_one(:sender, Backend.User)
+
+    timestamps(inserted_at: :created_at)
   end
 end

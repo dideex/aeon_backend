@@ -4,10 +4,10 @@ defmodule Backend.Chat.ChatInvite do
 
 
   schema "chat_invites" do
-    timestamps()
-
     belongs_to(:user, Backend.User)
     belongs_to(:chat, Backend.User.ChatInvite)
     has_one(:sender, Backend.User)
+
+    timestamps(inserted_at: :created_at)
   end
 end

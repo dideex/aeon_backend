@@ -7,7 +7,7 @@ defmodule Backend.Repo.Migrations.CreatePhotosTable do
       add(:url, :string)
       add(:user_id, references(:users))
 
-      timestamps()
+      timestamps(inserted_at: :created_at)
     end
   end
 end
