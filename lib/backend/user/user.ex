@@ -1,7 +1,12 @@
 defmodule Backend.User do
   use Ecto.Schema
   require Ecto.Query
+  alias Backend.User.{Photo, FriendInvite}
+  alias Backend.Chat.ChatInvite
   # alias Ecto.Changeset
+
+  @required_fields ~w(username firstname lastname birthdate hash)a
+  @optional_fields ~w(gender patronymic city about)a
 
   schema "users" do
     field(:username, :string, unique: true)
@@ -13,6 +18,7 @@ defmodule Backend.User do
     field(:city, :string)
     field(:about, :string)
     field(:birthdate, :date)
+
     field(:notificationPolicy, :map,
       default: %{
         show_friend_request: true,
@@ -20,6 +26,7 @@ defmodule Backend.User do
         show_new_post: true
       }
     )
+
     field(:policy, :map,
       default: %{
         profile: :public,
@@ -29,15 +36,15 @@ defmodule Backend.User do
 
     field(:statistic, :map, default: %{posts: 0, likes: 0})
 
-    has_one(:avatar, Backend.User.Photo)
+    has_one(:avatar, Photo)
 
     has_many(:ignoreUsers, Backend.User)
     has_many(:friends, Backend.User)
-    has_many(:photos, Backend.User.Photo)
-    has_many(:friend_invites, Backend.User.FriendInvite)
-    has_many(:chat_invites, Backend.User.ChatInvite)
-    timestamps(:inserted_at, :created_at)
+    has_many(:photos, Photo)
+    has_many(:friend_invites, FriendInvite)
+    has_many(:chat_invites, ChatInvite)
 
+    timestamps(inserted_at: :created_at)
     # has_one :avatar, Backend.User.Avatar
     # has_many :posts, Backend.User.Post
   end
