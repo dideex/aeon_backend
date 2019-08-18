@@ -2,15 +2,20 @@ defmodule Backend.User.Friend do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "friends" do
-    belongs_to(:user1, Backend.User)
-    belongs_to(:user2, Backend.User)
+  @primary_key false
+  @required_fields ~w(user1 user2)a
 
-    timestamps(inserted_at: :created_at)
+  schema "friends" do
+    field(:user1, :integer, primary_key: true)
+    field(:user2, :integer, primary_key: true)
+
+    timestamps(updated_at: false)
   end
 
-  def changeset(friend) do
-    friend
-    |> assoc_constraint(:user)
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, @required_fields)
+    |> validate_required(@required_fields)
+    |> unique_constraint(:follow, name: :user_followers_pkey)
   end
 end

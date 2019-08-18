@@ -2,7 +2,7 @@ defmodule Backend.Repo.Migrations.CreateGroupInviteTable do
   use Ecto.Migration
 
   def change do
-    create table(:group_invites) do
+    create table(:chat_invites) do
       add(:user_id, references(:users))
       add(:chat_id, references(:chats))
 
