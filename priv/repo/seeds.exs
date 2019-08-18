@@ -91,6 +91,10 @@ defmodule Backend.Data do
     |> Map.put(:user2, batman.id)
     |> Backend.Repo.insert!()
 
+    %Backend.User.Ignore{user: stark.id}
+    |> Map.put(:user_ignore, batman.id)
+    |> Backend.Repo.insert!()
+
   end
 
   defp keyToAtom({key, value}) do

@@ -1,13 +1,13 @@
-defmodule Backend.User.Friend do
+defmodule Backend.User.Ignore do
   use Ecto.Schema
   import Ecto.Changeset
 
   @primary_key false
-  @required_fields ~w(user1 user2)a
+  @required_fields ~w(user user_ignore)a
 
-  schema "friends" do
-    field(:user1, :integer, primary_key: true)
-    field(:user2, :integer, primary_key: true)
+  schema "user_ignores" do
+    field(:user, :integer, primary_key: true)
+    field(:user_ignore, :integer, primary_key: true)
 
     timestamps(updated_at: false)
   end
