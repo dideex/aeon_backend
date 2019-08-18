@@ -38,7 +38,6 @@ defmodule Backend.User do
 
     has_one(:avatar, Photo)
 
-    has_many(:friends, Backend.User)
     has_many(:ignoreUsers, Backend.User)
     has_many(:photos, Photo)
     has_many(:friend_invites, FriendInvite)

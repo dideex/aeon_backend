@@ -9,7 +9,7 @@ defmodule Backend.User.FriendInvite do
     has_one(:sender, Backend.User)
   end
 
-  def changeset(invite, attrs) do
+  def changeset(invite) do
     invite
     |> assoc_constraint(:user)
   end
