@@ -3,10 +3,11 @@ defmodule Backend.Repo.Migrations.CreateChatsTable do
 
   def change do
     create table(:chats) do
-      add(:group, :boolean)
       add(:name, :string)
       add(:image, :string)
-      add(:user_id, references(:users))
+      add(:group, :boolean)
+      add(:owner_id, references(:users))
+      add(:members, references(:users))
 
       timestamps(inserted_at: :created_at)
     end
