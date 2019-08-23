@@ -2,7 +2,7 @@ defmodule Backend.User.Post do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields ~w(title body)a
+  @required_fields ~w(title body user)a
   @optional_fields ~w(views)a
 
   schema "posts" do
@@ -13,7 +13,7 @@ defmodule Backend.User.Post do
     timestamps(inserted_at: :created_at)
 
     belongs_to(:user, Backend.User)
-    has_many(:likes, Backend.User)
+    many_to_many(:likes, Backend.User, join_through: "post_likes")
   end
 
   def changeset(article, attrs) do
