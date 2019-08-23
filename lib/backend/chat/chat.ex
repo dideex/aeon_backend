@@ -2,7 +2,7 @@ defmodule Backend.Chat do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields ~w(owner members)a
+  @required_fields ~w(owner_id)a
   @optional_fields ~w(image name group)a
 
   schema "chats" do
@@ -20,7 +20,7 @@ defmodule Backend.Chat do
     chat
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> cast_assoc(:members)
     |> assoc_constraint(:owner)
-    |> assoc_constraint(:members)
   end
 end

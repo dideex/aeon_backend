@@ -21,8 +21,8 @@ defmodule Backend.Data do
 
   defp clear_db do
     IO.puts("Clearing db...")
-    clear_users()
     clear_chats()
+    clear_users()
     IO.puts("DB has been clear!")
   end
 
@@ -120,10 +120,19 @@ defmodule Backend.Data do
     #   %Backend.Chat{
     #     name: "How to defeat Thanos?",
     #     image: "/image/chat/group1.jpg",
-    #     owner: stark,
-    #     members: [stark]
+    #     owner_id: stark.id,
+    #     members: [stark.id]
     #   }
     #   |> Repo.insert!()
+    {:ok, groupChat1} =
+      %Chat{}
+      |> Chat.changeset(%{
+        name: "How to defeat Thanos?",
+        image: "/image/chat/group1.jpg",
+        owner_id: stark.id,
+        members: [stark.id]
+      })
+      |> Repo.insert!()
 
     # IO.inspect(groupChat1)
   end

@@ -3,10 +3,10 @@ defmodule Backend.Repo.Migrations.CreateNotificationTable do
 
   def change do
     create table(:notifications) do
-      add(:unread, :boolean)
-      add(:type, :string)
       add(:title, :string)
       add(:body, :string)
+      add(:type, :string)
+      add(:unread, :boolean)
 
       add(:user_id, references(:users))
 
