@@ -9,7 +9,7 @@ defmodule Backend.User.Photo do
     field(:url, :string)
 
     belongs_to(:user, Backend.User)
-    has_many(:likes, Backend.User)
+    many_to_many(:likes, Backend.User, join_through: "photo_likes")
 
     timestamps(inserted_at: :created_at)
   end
