@@ -13,7 +13,7 @@ defmodule Backend.Repo.Migrations.CreateUserTable do
       add(:about, :string)
       add(:birthdate, :date)
       add(:policy, :map)
-      add(:notificationPolicy, :map)
+      add(:notification_policy, :map)
       add(:statistic, :map)
 
       timestamps(inserted_at: :created_at)

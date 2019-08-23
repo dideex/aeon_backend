@@ -1,7 +1,7 @@
 defmodule Backend.User do
   use Ecto.Schema
   require Ecto.Query
-  alias Backend.User.{Photo, FriendInvite}
+  alias Backend.User.{Photo, FriendInvite, Avatar}
   alias Backend.Chat.ChatInvite
   import Ecto.Changeset
 
@@ -19,14 +19,6 @@ defmodule Backend.User do
     field(:about, :string)
     field(:birthdate, :date)
 
-    field(:notificationPolicy, :map,
-      default: %{
-        show_friend_request: true,
-        show_photo_rating: true,
-        show_new_post: true
-      }
-    )
-
     field(:policy, :map,
       default: %{
         profile: :public,
@@ -34,13 +26,27 @@ defmodule Backend.User do
       }
     )
 
+    field(:notification_policy, :map,
+      default: %{
+        show_friend_request: true,
+        show_photo_rating: true,
+        show_new_post: true
+      }
+    )
+
     field(:statistic, :map, default: %{posts: 0, likes: 0})
 
-    has_one(:avatar, Photo)
-
+    has_one(:avatar, Avatar)
     has_many(:photos, Photo)
-    has_many(:friend_invites, FriendInvite)
-    has_many(:chat_invites, ChatInvite)
+    has_many(:chat_owner, Chat)
+    has_many(:messages, Message)
+    has_many(:notifications, Notification)
+    many_to_many(:friends, User, join_through: "friends")
+    many_to_many(:chats, Chat, join_through: "chat_members")
+    many_to_many(:friend_invites, FriendInvite, join_through: "friend_invites")
+    many_to_many(:chat_invites, ChatInvite, join_through: "chat_invites")
+    many_to_many(:photo_likes, Photo, join_through: "photo_likes")
+    many_to_many(:unread_messages, Messages, join_through: "unread_messages")
 
     timestamps(inserted_at: :created_at)
   end
