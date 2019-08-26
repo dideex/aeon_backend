@@ -1,11 +1,12 @@
 defmodule Backend.User do
   use Ecto.Schema
   require Ecto.Query
-  alias Backend.User.{Photo, FriendInvite, Avatar, Post}
-  alias Backend.Chat.ChatInvite
+  alias Backend.User.{Photo, FriendInvite, Avatar, Post, Notification}
+  alias Backend.Chat
   import Ecto.Changeset
 
-  @required_fields ~w(username firstname lastname birthdate hash)a
+  # @required_fields ~w(username firstname lastname birthdate password)a
+  @required_fields ~w(username)a
   @optional_fields ~w(gender patronymic city about)a
 
   schema "users" do
@@ -39,15 +40,15 @@ defmodule Backend.User do
     has_one(:avatar, Avatar)
     has_many(:posts, Post)
     has_many(:photos, Photo)
-    has_many(:chat_owner, Chat)
-    has_many(:messages, Message)
+    has_many(:chat_owner, Chat, foreign_key: :owner_id)
+    has_many(:messages, Chat.Message)
     has_many(:notifications, Notification)
     many_to_many(:friends, __MODULE__, join_through: "friends")
     many_to_many(:chats, Chat, join_through: "chat_members")
     many_to_many(:friend_invites, FriendInvite, join_through: "friend_invites")
-    many_to_many(:chat_invites, ChatInvite, join_through: "chat_invites")
+    many_to_many(:chat_invites, Chat.Invite, join_through: "chat_invites")
     many_to_many(:photo_likes, Photo, join_through: "photo_likes")
-    many_to_many(:unread_messages, Messages, join_through: "unread_messages")
+    many_to_many(:unread_messages, Chat.Message, join_through: "unread_messages")
     many_to_many(:post_likes, Post, join_through: "post_likes")
     many_to_many(:mute_users, __MODULE__, join_through: "mute_users")
 

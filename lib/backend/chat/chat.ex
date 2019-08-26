@@ -10,7 +10,7 @@ defmodule Backend.Chat do
     field(:image, :string)
     field(:group, :boolean, default: false)
 
-    belongs_to(:owner, Backend.User)
+    belongs_to(:owner, Backend.User, foreign_key: :chat_owner)
     has_many(:messages, Backend.Chat.Message)
     has_many(:chat_invites, Backend.Chat.Invite)
     many_to_many(:members, Backend.User, join_through: "chat_members")
