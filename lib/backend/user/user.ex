@@ -42,13 +42,14 @@ defmodule Backend.User do
     has_many(:chat_owner, Chat)
     has_many(:messages, Message)
     has_many(:notifications, Notification)
-    many_to_many(:friends, User, join_through: "friends")
+    many_to_many(:friends, __MODULE__, join_through: "friends")
     many_to_many(:chats, Chat, join_through: "chat_members")
     many_to_many(:friend_invites, FriendInvite, join_through: "friend_invites")
     many_to_many(:chat_invites, ChatInvite, join_through: "chat_invites")
     many_to_many(:photo_likes, Photo, join_through: "photo_likes")
     many_to_many(:unread_messages, Messages, join_through: "unread_messages")
     many_to_many(:post_likes, Post, join_through: "post_likes")
+    many_to_many(:mute_users, __MODULE__, join_through: "mute_users")
 
     timestamps(inserted_at: :created_at)
   end
