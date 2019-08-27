@@ -5,9 +5,8 @@ defmodule Backend.User do
   alias Backend.Chat
   import Ecto.Changeset
 
-  # @required_fields ~w(username firstname lastname birthdate password)a
-  @required_fields ~w(username)a
-  @optional_fields ~w(gender patronymic city about)a
+  @required_fields ~w(username firstname lastname birthdate password)a
+  @optional_fields ~w(gender patronymic city about statistic policy notification_policy)a
 
   schema "users" do
     field(:username, :string, unique: true)

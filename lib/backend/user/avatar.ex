@@ -2,7 +2,7 @@ defmodule Backend.User.Avatar do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields ~w(title url)a
+  @required_fields ~w(title url user)a
 
   schema "avatars" do
     field(:title, :string)
