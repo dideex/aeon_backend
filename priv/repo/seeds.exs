@@ -19,6 +19,7 @@ defmodule Backend.Data do
     Repo.delete_all(User.Notification)
     Repo.delete_all(User.FriendInvite)
     # Repo.delete_all(User.Friend)
+    Repo.delete_all(User.PhotoLikes)
     Repo.delete_all(User.Photo)
     Repo.delete_all(User.Post)
     # Repo.delete_all(User.Ignore)
@@ -50,6 +51,11 @@ defmodule Backend.Data do
       |> Map.put(:birthdate, ~D[1970-01-01])
       |> Map.put(:password, "qwerqwer")
 
+    batman =
+      %User{}
+      |> User.changeset(batmanModel)
+      |> Repo.insert!()
+
     starkModel =
       Jason.decode!(
         ~s({"username":"Tony@stark.com","firstname":"Tony","lastname":"Stark","city":"New-York","gender":"male","patronymic":"Ironman","avatar":"/image/avatar/me.jpg","about":"Genius, Billionaire, Playboy, Philanthropist"})
@@ -58,11 +64,6 @@ defmodule Backend.Data do
       |> Map.put(:birthdate, ~D[1963-02-22])
       |> Map.put(:password, "qwerqwer")
       |> Map.put(:statistic, %{posts: 13, likes: 68})
-
-    batman =
-      %User{}
-      |> User.changeset(batmanModel)
-      |> Repo.insert!()
 
     stark =
       %User{}
@@ -76,31 +77,38 @@ defmodule Backend.Data do
     |> Repo.insert()
 
     starkPhotos = [
-      %User.Photo{
-        title: "Hungry insect in the city, call the police",
-        url: "/image/gallery/me_0.jpg"
-      },
-      %User.Photo{title: "Istambul <3", url: "/image/gallery/me_1.jpg"},
-      %User.Photo{title: "Hi-tech undewear", url: "/image/gallery/me_2.jpg"},
-      %User.Photo{title: "Ironman plays with ironman", url: "/image/gallery/me_3.jpg"},
-      %User.Photo{title: "Look at my red glasses", url: "/image/gallery/me_4.jpg"},
-      %User.Photo{title: "Peace (=", url: "/image/gallery/me_5.jpg"},
-      %User.Photo{title: "Sup?", url: "/image/gallery/me_6.jpg"},
-      %User.Photo{title: "Who is stronger?!", url: "/image/gallery/me_07.jpg"},
-      %User.Photo{title: "Chilling after Tanos ...", url: "/image/gallery/me_08.jpg"},
-      %User.Photo{
-        title: "Do you know how is this ...man?!",
-        url: "/image/gallery/me_09.jpg"
-      },
-      %User.Photo{title: "Look at my big cigar", url: "/image/gallery/me_10.jpg"},
-      %User.Photo{title: "The world is on fire", url: "/image/gallery/me_11.jpg"}
+      {%User.Photo{
+         title: "Hungry insect in the city, call the police",
+         url: "/image/gallery/me_0.jpg"
+       }, [stark, batman]},
+      {%User.Photo{title: "Istambul <3", url: "/image/gallery/me_1.jpg"}, [stark, batman]},
+      {%User.Photo{title: "Hi-tech undewear", url: "/image/gallery/me_2.jpg"}, [stark, batman]},
+      {%User.Photo{title: "Ironman plays with ironman", url: "/image/gallery/me_3.jpg"},
+       [stark, batman]},
+      {%User.Photo{title: "Look at my red glasses", url: "/image/gallery/me_4.jpg"},
+       [stark, batman]},
+      {%User.Photo{title: "Peace (=", url: "/image/gallery/me_5.jpg"}, [stark, batman]},
+      {%User.Photo{title: "Sup?", url: "/image/gallery/me_6.jpg"}, [stark, batman]},
+      {%User.Photo{title: "Who is stronger?!", url: "/image/gallery/me_07.jpg"}, [stark, batman]},
+      {%User.Photo{title: "Chilling after Tanos ...", url: "/image/gallery/me_08.jpg"},
+       [stark, batman]},
+      {%User.Photo{title: "Do you know how is this ...man?!", url: "/image/gallery/me_09.jpg"},
+       [stark, batman]},
+      {%User.Photo{title: "Look at my big cigar", url: "/image/gallery/me_10.jpg"},
+       [stark, batman]},
+      {%User.Photo{title: "The world is on fire", url: "/image/gallery/me_11.jpg"},
+       [stark, batman]}
     ]
 
     starkPhotos
-    |> Enum.map(fn photo ->
-      _ =
-        Ecto.build_assoc(stark, :photos, photo)
-        |> Repo.insert!()
+    |> Enum.map(fn {photoModel, likes} ->
+      photoModel = Repo.preload(photoModel, :likes)
+
+      Ecto.build_assoc(stark, :photos, photoModel)
+      |> Repo.insert!()
+      |> Ecto.Changeset.change()
+      |> Ecto.Changeset.put_assoc(:likes, likes)
+      |> Repo.update!()
     end)
 
     Ecto.build_assoc(batman, :avatar, %User.Avatar{
