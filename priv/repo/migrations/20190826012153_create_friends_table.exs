@@ -6,7 +6,7 @@ defmodule Backend.Repo.Migrations.CreateFriendsTable do
       add(:user_id, references(:users))
       add(:friend_id, references(:users))
 
-      timestamps(inserted_at: :created_at)
+      # timestamps(inserted_at: :created_at)
     end
 
     create(unique_index(:friends, [:user_id, :friend_id]))

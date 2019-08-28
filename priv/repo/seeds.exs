@@ -18,8 +18,9 @@ defmodule Backend.Data do
   defp clear_users do
     Repo.delete_all(User.Notification)
     Repo.delete_all(User.FriendInvite)
+    Repo.delete_all(User.Friend)
     # Repo.delete_all(User.Friend)
-    Repo.delete_all(User.PhotoLikes)
+    Repo.delete_all(User.PhotoLike)
     Repo.delete_all(User.Photo)
     Repo.delete_all(User.Post)
     # Repo.delete_all(User.Ignore)
@@ -76,6 +77,7 @@ defmodule Backend.Data do
     })
     |> Repo.insert()
 
+    # [{PhotoModel: %Photo{}, likes: [User]}]
     starkPhotos = [
       {%User.Photo{
          title: "Hungry insect in the city, call the police",
@@ -100,6 +102,7 @@ defmodule Backend.Data do
        [stark, batman]}
     ]
 
+    # Add stark photos
     starkPhotos
     |> Enum.map(fn {photoModel, likes} ->
       photoModel = Repo.preload(photoModel, :likes)
@@ -116,6 +119,12 @@ defmodule Backend.Data do
       url: "/image/avatar/batman.jpg"
     })
     |> Repo.insert()
+
+    stark
+    |> Repo.preload(:friends)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:friends, [batman])
+    |> Repo.update!()
   end
 
   defp init_chats do
