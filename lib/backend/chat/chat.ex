@@ -2,15 +2,15 @@ defmodule Backend.Chat do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields ~w(owner_id)a
+  @required_fields ~w()a
   @optional_fields ~w(image name group)a
 
   schema "chats" do
-    field(:name, :string)
-    field(:image, :string)
+    field(:name, :string, default: "")
+    field(:image, :string, default: "")
     field(:group, :boolean, default: false)
 
-    belongs_to(:owner, Backend.User, foreign_key: :chat_owner)
+    belongs_to(:owner, Backend.User)
     has_many(:messages, Backend.Chat.Message)
     has_many(:chat_invites, Backend.Chat.Invite)
     many_to_many(:members, Backend.User, join_through: "chat_members")

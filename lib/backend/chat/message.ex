@@ -2,7 +2,7 @@ defmodule Backend.Chat.Message do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields ~w(sender chat body)a
+  @required_fields ~w(body)a
   @optional_fields ~w()a
 
   schema "messages" do
@@ -10,7 +10,7 @@ defmodule Backend.Chat.Message do
 
     belongs_to(:sender, Backend.User)
     belongs_to(:chat, Backend.Chat)
-    many_to_many(:unread, User, join_through: "unread_messages")
+    many_to_many(:unread, Backend.User, join_through: "unread_messages")
 
     timestamps(inserted_at: :created_at)
   end

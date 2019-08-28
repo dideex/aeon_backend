@@ -40,7 +40,7 @@ defmodule Backend.User do
     has_many(:posts, Post)
     has_many(:photos, Photo)
     has_many(:chat_owner, Chat, foreign_key: :owner_id)
-    has_many(:messages, Chat.Message)
+    has_many(:messages, Chat.Message, foreign_key: :sender_id)
     has_many(:notifications, Notification)
     has_many(:friends, Friend)
     many_to_many(:chats, Chat, join_through: "chat_members")

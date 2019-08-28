@@ -36,10 +36,15 @@ defmodule Backend.Data do
 
   defp populate do
     IO.puts("Inserting data into db...")
+
     users = init_users()
+
     init_photos(users)
     init_friends(users)
-    init_chats()
+
+    chats = init_chats(users)
+    init_messages(users, chats)
+
     IO.puts("Data has been insert!")
   end
 
@@ -139,8 +144,34 @@ defmodule Backend.Data do
     |> Repo.insert!()
   end
 
-  defp init_chats do
+  defp init_chats(%{stark: stark, batman: batman}) do
     IO.puts("Loading chats...")
+
+    chat1 =
+      Ecto.build_assoc(stark, :chat_owner, %Chat{
+        name: "How to defeat Thanos?",
+        image: "/image/chat/group1.jpg"
+      })
+      |> Repo.insert!()
+
+    %{chat1: chat1}
+  end
+
+  defp init_messages(%{stark: stark, batman: batman}, %{chat1: chat1}) do
+    IO.puts("Loading chat messages...")
+
+    message_model = %Chat.Message{
+      body: "Yeah, we got one advantage. He's coming to us"
+    }
+
+    message =
+      Ecto.build_assoc(stark, :messages, message_model)
+      |> Repo.insert!()
+
+    IO.inspect(message)
+
+    Ecto.build_assoc(chat1, :messages, message)
+    |> Repo.insert!()
   end
 
   defp keyToAtom({key, value}) do
