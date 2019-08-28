@@ -1,7 +1,7 @@
 defmodule Backend.User do
   use Ecto.Schema
   require Ecto.Query
-  alias Backend.User.{Photo, FriendInvite, Avatar, Post, Notification}
+  alias Backend.User.{Photo, FriendInvite, Avatar, Post, Notification, Friend}
   alias Backend.Chat
   import Ecto.Changeset
 
@@ -42,7 +42,7 @@ defmodule Backend.User do
     has_many(:chat_owner, Chat, foreign_key: :owner_id)
     has_many(:messages, Chat.Message)
     has_many(:notifications, Notification)
-    many_to_many(:friends, __MODULE__, join_through: "friends")
+    has_many(:friends, Friend)
     many_to_many(:chats, Chat, join_through: "chat_members")
     many_to_many(:friend_invites, FriendInvite, join_through: "friend_invites")
     many_to_many(:chat_invites, Chat.Invite, join_through: "chat_invites")

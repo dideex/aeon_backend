@@ -36,7 +36,9 @@ defmodule Backend.Data do
 
   defp populate do
     IO.puts("Inserting data into db...")
-    init_users()
+    users = init_users()
+    init_photos(users)
+    init_friends(users)
     init_chats()
     IO.puts("Data has been insert!")
   end
@@ -70,6 +72,12 @@ defmodule Backend.Data do
       %User{}
       |> User.changeset(starkModel)
       |> Repo.insert!()
+
+    %{stark: stark, batman: batman}
+  end
+
+  defp init_photos(%{stark: stark, batman: batman}) do
+    IO.puts("Inserting photos...")
 
     Ecto.build_assoc(stark, :avatar, %User.Avatar{
       title: "My photo",
@@ -119,12 +127,16 @@ defmodule Backend.Data do
       url: "/image/avatar/batman.jpg"
     })
     |> Repo.insert()
+  end
 
-    stark
-    |> Repo.preload(:friends)
-    |> Ecto.Changeset.change()
-    |> Ecto.Changeset.put_assoc(:friends, [batman])
-    |> Repo.update!()
+  defp init_friends(%{stark: stark, batman: batman}) do
+    IO.puts("Associating friend relationships...")
+
+    Ecto.build_assoc(stark, :friends, %User.Friend{friend_id: batman.id})
+    |> Repo.insert!()
+
+    Ecto.build_assoc(batman, :friends, %User.Friend{friend_id: stark.id})
+    |> Repo.insert!()
   end
 
   defp init_chats do
