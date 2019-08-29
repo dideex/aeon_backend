@@ -5,8 +5,9 @@ defmodule Backend.Repo.Migrations.CreatePostsTable do
     create table(:posts) do
       add(:title, :string)
       add(:body, :string)
-      add(:views, :string)
-      add(:user_id, references(:users))
+      add(:views, :integer)
+      add(:photo, :string)
+      add(:author_id, references(:users))
 
       timestamps(inserted_at: :created_at)
     end

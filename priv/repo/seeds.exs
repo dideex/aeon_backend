@@ -19,7 +19,6 @@ defmodule Backend.Data do
     Repo.delete_all(User.Notification)
     Repo.delete_all(User.FriendInvite)
     Repo.delete_all(User.Friend)
-    # Repo.delete_all(User.Friend)
     Repo.delete_all(User.PhotoLike)
     Repo.delete_all(User.Photo)
     Repo.delete_all(User.Post)
@@ -30,6 +29,7 @@ defmodule Backend.Data do
 
   defp clear_chats do
     Repo.delete_all(Chat.Unread)
+    Repo.delete_all(Chat.Member)
     Repo.delete_all(Chat.Invite)
     Repo.delete_all(Chat.Message)
     Repo.delete_all(Chat)
@@ -45,6 +45,8 @@ defmodule Backend.Data do
 
     chats = init_chats(users)
     init_messages(users, chats)
+
+    init_posts(users)
 
     IO.puts("Data has been insert!")
   end
@@ -143,13 +145,18 @@ defmodule Backend.Data do
 
     Ecto.build_assoc(batman, :friends, %User.Friend{friend_id: stark.id})
     |> Repo.insert!()
+
+    %User.FriendInvite{}
+    |> User.FriendInvite.changeset(%{user_id: stark.id, sender_id: batman.id})
+    |> Repo.insert!()
   end
 
   defp init_chats(%{stark: stark, batman: batman}) do
     IO.puts("Loading chats...")
 
     chat1_modle =
-      chat1 = %Chat{
+      chat1 =
+      %Chat{
         name: "How to defeat Thanos?",
         image: "/image/chat/group1.jpg"
       }
@@ -170,7 +177,7 @@ defmodule Backend.Data do
     %{chat1: chat1}
   end
 
-  defp init_messages(%{stark: stark, batman: batman}, %{chat1: chat1}) do
+  defp init_messages(%{stark: stark, batman: batman} = users, %{chat1: chat1}) do
     IO.puts("Loading chat messages...")
 
     unread_message1 =
@@ -185,6 +192,25 @@ defmodule Backend.Data do
     |> Repo.insert!()
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:unread, [batman])
+    |> Repo.update!()
+  end
+
+  defp init_posts(%{stark: stark, batman: batman}) do
+    IO.puts("Loading posts...")
+
+    %User.Post{}
+    |> User.Post.changeset(%{
+      title: "The 'We Love You 3000' Tour Hits Chicago, Miami, Los Angeles, and Minneapolis",
+      body:
+        "The wait is over to bring home the biggest movie of all time! Marvel Studios' Avengers: Endgame is now available on Digital and Blu-ray, as of this week.",
+      photo: "/image/post/post1.jpg",
+      views: 10,
+      author_id: stark.id
+    })
+    |> Repo.insert!()
+    |> Repo.preload(:likes)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:likes, [batman, stark])
     |> Repo.update!()
   end
 
