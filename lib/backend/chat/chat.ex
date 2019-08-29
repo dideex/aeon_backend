@@ -3,7 +3,7 @@ defmodule Backend.Chat do
   import Ecto.Changeset
 
   @required_fields ~w()a
-  @optional_fields ~w(image name group)a
+  @optional_fields ~w(image name group owner_id)a
 
   schema "chats" do
     field(:name, :string, default: "")

@@ -3,6 +3,7 @@ defmodule Backend.User.Friend do
   import Ecto.Changeset
 
   @required_fields ~w(friend_id)a
+  @optional_fields ~w(user_id)a
 
   schema "friends" do
     belongs_to(:user, Backend.User)
@@ -11,7 +12,7 @@ defmodule Backend.User.Friend do
 
   def changeset(user, attrs) do
     user
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> assoc_constraint(:users)
   end

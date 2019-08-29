@@ -164,14 +164,31 @@ defmodule Backend.Data do
       body: "Yeah, we got one advantage. He's coming to us"
     }
 
-    message =
-      Ecto.build_assoc(stark, :messages, message_model)
-      |> Repo.insert!()
+    unread_message1 =
+      # %Chat.Message{}
+      # |> Chat.Message.changeset(%{
+      #   body: "Yeah, we got one advantage. He's coming to us",
+      #   sender_id: stark.id,
+      #   chat_id: chat1.id
+      # })
+      %Chat.Message{
+        body: "Yeah, we got one advantage. He's coming to us",
+        sender_id: stark.id,
+        chat_id: chat1.id
+      }
+      |> Repo.preload(:unread)
+      # |> Repo.insert!()
 
-    IO.inspect(message)
 
-    Ecto.build_assoc(chat1, :messages, message)
+    # photoModel = Repo.preload(photoModel, :likes)
+
+    Ecto.build_assoc(stark, :unread_messages, unread_message1)
     |> Repo.insert!()
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:unread, [batman])
+    |> Repo.update!()
+
+    IO.inspect(unread_message1)
   end
 
   defp keyToAtom({key, value}) do

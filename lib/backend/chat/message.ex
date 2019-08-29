@@ -3,7 +3,7 @@ defmodule Backend.Chat.Message do
   import Ecto.Changeset
 
   @required_fields ~w(body)a
-  @optional_fields ~w()a
+  @optional_fields ~w(chat_id sender_id)a
 
   schema "messages" do
     field(:body, :string)
@@ -19,6 +19,7 @@ defmodule Backend.Chat.Message do
     message
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> assoc_constraint(:user)
+    |> assoc_constraint(:sender)
+    |> assoc_constraint(:chat)
   end
 end
