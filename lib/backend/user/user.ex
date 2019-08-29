@@ -1,7 +1,7 @@
 defmodule Backend.User do
   use Ecto.Schema
   require Ecto.Query
-  alias Backend.User.{Photo, FriendInvite, Avatar, Post, Notification, Friend}
+  alias Backend.User.{Photo, FriendInvite, Avatar, Post, Notification, Friend, MuteUser}
   alias Backend.Chat
   import Ecto.Changeset
 
@@ -45,11 +45,11 @@ defmodule Backend.User do
     has_many(:friends, Friend)
     has_many(:chat_invites, Chat.Invite)
     has_many(:friend_invites, FriendInvite)
+    has_many(:mute_users, MuteUser)
     many_to_many(:chats, Chat, join_through: "chat_members")
     many_to_many(:photo_likes, Photo, join_through: "photo_likes")
     many_to_many(:unread_messages, Chat.Message, join_through: "unread_messages")
     many_to_many(:post_likes, Post, join_through: "post_likes")
-    many_to_many(:mute_users, __MODULE__, join_through: "mute_users")
 
     timestamps(inserted_at: :created_at)
   end

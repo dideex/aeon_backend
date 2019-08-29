@@ -1,7 +1,7 @@
 defmodule Backend.Data do
   require Ecto.Query
   alias Backend.{Repo, User, Chat}
-  alias Ecto.Query
+  # alias Ecto.Query
 
   def generate() do
     clear_db()
@@ -16,10 +16,11 @@ defmodule Backend.Data do
   end
 
   defp clear_users do
+    Repo.delete_all(User.PhotoLike)
+    Repo.delete_all(User.PostLike)
     Repo.delete_all(User.Notification)
     Repo.delete_all(User.FriendInvite)
     Repo.delete_all(User.Friend)
-    Repo.delete_all(User.PhotoLike)
     Repo.delete_all(User.Photo)
     Repo.delete_all(User.Post)
     # Repo.delete_all(User.Ignore)
@@ -47,6 +48,7 @@ defmodule Backend.Data do
     init_messages(users, chats)
 
     init_posts(users)
+    init_notifications(users)
 
     IO.puts("Data has been insert!")
   end
@@ -149,6 +151,10 @@ defmodule Backend.Data do
     %User.FriendInvite{}
     |> User.FriendInvite.changeset(%{user_id: stark.id, sender_id: batman.id})
     |> Repo.insert!()
+
+    %User.MuteUser{}
+    |> User.MuteUser.changeset(%{user_id: stark.id, mute_user_id: batman.id})
+    |> Repo.insert!()
   end
 
   defp init_chats(%{stark: stark, batman: batman}) do
@@ -212,6 +218,11 @@ defmodule Backend.Data do
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:likes, [batman, stark])
     |> Repo.update!()
+  end
+
+  defp init_notifications(%{stark: stark, batman: batman}) do
+    IO.puts("Loading notifications...")
+    # ...
   end
 
   defp keyToAtom({key, value}) do
