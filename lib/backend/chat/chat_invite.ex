@@ -5,9 +5,9 @@ defmodule Backend.Chat.Invite do
   @optional_fields ~w(user_id sender_id chat_id)a
 
   schema "chat_invites" do
-    belongs_to(:user, Backend.User, foreign_key: :chat_invites)
+    belongs_to(:user, Backend.User)
     belongs_to(:chat, Backend.Chat)
-    belongs_to(:sender, Backend.User)
+    field(:sender_id, :integer)
 
     timestamps(inserted_at: :created_at)
   end

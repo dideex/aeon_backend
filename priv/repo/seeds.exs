@@ -29,6 +29,7 @@ defmodule Backend.Data do
   end
 
   defp clear_chats do
+    Repo.delete_all(Chat.Unread)
     Repo.delete_all(Chat.Invite)
     Repo.delete_all(Chat.Message)
     Repo.delete_all(Chat)
@@ -147,12 +148,24 @@ defmodule Backend.Data do
   defp init_chats(%{stark: stark, batman: batman}) do
     IO.puts("Loading chats...")
 
-    chat1 =
-      Ecto.build_assoc(stark, :chat_owner, %Chat{
+    chat1_modle =
+      chat1 = %Chat{
         name: "How to defeat Thanos?",
         image: "/image/chat/group1.jpg"
-      })
-      |> Repo.insert!()
+      }
+      |> Repo.preload(:members)
+
+    Ecto.build_assoc(stark, :chat_owner, chat1_modle)
+    |> Repo.insert!()
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:members, [batman, stark])
+    |> Repo.update!()
+
+    IO.puts("Loading chat invites...")
+
+    %Chat.Invite{}
+    |> Chat.Invite.changeset(%{user_id: stark.id, sender_id: batman.id, chat_id: chat1.id})
+    |> Repo.insert!()
 
     %{chat1: chat1}
   end
@@ -160,35 +173,19 @@ defmodule Backend.Data do
   defp init_messages(%{stark: stark, batman: batman}, %{chat1: chat1}) do
     IO.puts("Loading chat messages...")
 
-    message_model = %Chat.Message{
-      body: "Yeah, we got one advantage. He's coming to us"
-    }
-
     unread_message1 =
-      # %Chat.Message{}
-      # |> Chat.Message.changeset(%{
-      #   body: "Yeah, we got one advantage. He's coming to us",
-      #   sender_id: stark.id,
-      #   chat_id: chat1.id
-      # })
       %Chat.Message{
         body: "Yeah, we got one advantage. He's coming to us",
         sender_id: stark.id,
         chat_id: chat1.id
       }
       |> Repo.preload(:unread)
-      # |> Repo.insert!()
-
-
-    # photoModel = Repo.preload(photoModel, :likes)
 
     Ecto.build_assoc(stark, :unread_messages, unread_message1)
     |> Repo.insert!()
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:unread, [batman])
     |> Repo.update!()
-
-    IO.inspect(unread_message1)
   end
 
   defp keyToAtom({key, value}) do
