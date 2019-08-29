@@ -221,21 +221,33 @@ defmodule Backend.Data do
     end)
   end
 
-  defp init_friends(%{stark: stark, batman: batman}) do
+  defp init_friends(%{stark: stark} = users) do
     IO.puts("Associating friend relationships...")
 
-    Ecto.build_assoc(stark, :friends, %User.Friend{friend_id: batman.id})
-    |> Repo.insert!()
+    Enum.each(users, fn
+      {_, user} ->
+        cond do
+          stark.id !== user.id ->
+            Ecto.build_assoc(stark, :friends, %User.Friend{friend_id: user.id})
+            |> Repo.insert!()
 
-    Ecto.build_assoc(batman, :friends, %User.Friend{friend_id: stark.id})
-    |> Repo.insert!()
+            Ecto.build_assoc(user, :friends, %User.Friend{friend_id: stark.id})
+            |> Repo.insert!()
+
+          true ->
+            nil
+        end
+    end)
+
+    # Ecto.build_assoc(users.batman, :friends, %User.Friend{friend_id: users.stark.id})
+    # |> Repo.insert!()
 
     %User.FriendInvite{}
-    |> User.FriendInvite.changeset(%{user_id: stark.id, sender_id: batman.id})
+    |> User.FriendInvite.changeset(%{user_id: users.stark.id, sender_id: users.batman.id})
     |> Repo.insert!()
 
     %User.MuteUser{}
-    |> User.MuteUser.changeset(%{user_id: stark.id, mute_user_id: batman.id})
+    |> User.MuteUser.changeset(%{user_id: users.stark.id, mute_user_id: users.batman.id})
     |> Repo.insert!()
   end
 
