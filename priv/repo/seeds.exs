@@ -41,6 +41,7 @@ defmodule Backend.Data do
 
     users = init_users()
 
+    init_avatars(users)
     init_photos(users)
     init_friends(users)
 
@@ -135,38 +136,76 @@ defmodule Backend.Data do
     end)
   end
 
-  defp init_photos(%{stark: stark, batman: batman}) do
-    IO.puts("Inserting photos...")
+  defp init_avatars(users) do
+    IO.puts("Inserting avatars...")
 
-    Ecto.build_assoc(stark, :avatar, %User.Avatar{
-      title: "My photo",
-      url: "/image/avatar/me.jpg"
-    })
-    |> Repo.insert()
+    avatarModels = [
+      {:stark, %{title: "stark avatar", url: "/image/avatar/me.jpg"}},
+      {:spiderman, %{title: "spiderman avatar", url: "/image/avatar/spiderman.jpg"}},
+      {:superman, %{title: "superman avatar", url: "/image/avatar/superman.jpg"}},
+      {:wolverine, %{title: "wolverine avatar", url: "/image/avatar/wolverine.jpg"}},
+      {:captainAmerica, %{title: "America avatar", url: "/image/avatar/captainAmerica.jpg"}},
+      {:thor, %{title: "thor avatar", url: "/image/avatar/thor.jpg"}},
+      {:venom, %{title: "venom avatar", url: "/image/avatar/venom.jpg"}},
+      {:blackWidow, %{title: "blackWidow avatar", url: "/image/avatar/blackWidow.jpg"}},
+      {:ant, %{title: "ant avatar", url: "/image/avatar/ant.jpg"}},
+      {:marvel, %{title: "marvel avatar", url: "/image/avatar/marvel.jpg"}},
+      {:blackPanther, %{title: "blackPanther avatar", url: "/image/avatar/blackPanther.jpg"}},
+      {:strange, %{title: "strange avatar", url: "/image/avatar/strange.jpg"}},
+      {:hulk, %{title: "hulk avatar", url: "/image/avatar/hulk.jpg"}},
+      {:daredevil, %{title: "daredevil avatar", url: "/image/avatar/daredevil.jpg"}},
+      {:deadpool, %{title: "deadpool avatar", url: "/image/avatar/deadpool.jpg"}},
+      {:quill, %{title: "quill avatar", url: "/image/avatar/quill.jpg"}},
+      {:gamora, %{title: "gamora avatar", url: "/image/avatar/gamora.jpg"}},
+      {:drax, %{title: "drax avatar", url: "/image/avatar/drax.jpg"}},
+      {:pepper, %{title: "pepper avatar", url: "/image/avatar/pepper.jpg"}}
+    ]
+
+    avatarModels
+    |> Enum.each(fn {name, avatarModel} ->
+      Ecto.build_assoc(users[name], :avatar, avatarModel)
+      |> Repo.insert()
+    end)
+  end
+
+  defp init_photos(users) do
+    IO.puts("Inserting photos...")
 
     # [{PhotoModel: %Photo{}, likes: [User]}]
     starkPhotos = [
       {%User.Photo{
          title: "Hungry insect in the city, call the police",
          url: "/image/gallery/me_0.jpg"
-       }, [stark, batman]},
-      {%User.Photo{title: "Istambul <3", url: "/image/gallery/me_1.jpg"}, [stark, batman]},
-      {%User.Photo{title: "Hi-tech undewear", url: "/image/gallery/me_2.jpg"}, [stark, batman]},
+       }, [users.spiderman, users.batman, users.superman]},
+      {%User.Photo{title: "Istambul <3", url: "/image/gallery/me_1.jpg"},
+       [users.batman, users.superman, users.blackWidow, users.daredevil, users.marvel]},
+      {%User.Photo{title: "Hi-tech undewear", url: "/image/gallery/me_2.jpg"},
+       [users.superman, users.blackWidow, users.venom, users.thor]},
       {%User.Photo{title: "Ironman plays with ironman", url: "/image/gallery/me_3.jpg"},
-       [stark, batman]},
-      {%User.Photo{title: "Look at my red glasses", url: "/image/gallery/me_4.jpg"},
-       [stark, batman]},
-      {%User.Photo{title: "Peace (=", url: "/image/gallery/me_5.jpg"}, [stark, batman]},
-      {%User.Photo{title: "Sup?", url: "/image/gallery/me_6.jpg"}, [stark, batman]},
-      {%User.Photo{title: "Who is stronger?!", url: "/image/gallery/me_07.jpg"}, [stark, batman]},
+       [users.batman, users.daredevil, users.deadpool]},
+      {%User.Photo{title: "Look at my red glasses", url: "/image/gallery/me_4.jpg"}, [users.ant]},
+      {%User.Photo{title: "Peace (=", url: "/image/gallery/me_5.jpg"},
+       [users.superman, users.deadpool, users.hulk, users.thor]},
+      {%User.Photo{title: "Sup?", url: "/image/gallery/me_6.jpg"},
+       [users.batman, users.superman, users.blackPanther, users.wolverine]},
+      {%User.Photo{title: "Who is stronger?!", url: "/image/gallery/me_07.jpg"},
+       [users.batman, users.deadpool, users.venom]},
       {%User.Photo{title: "Chilling after Tanos ...", url: "/image/gallery/me_08.jpg"},
-       [stark, batman]},
+       [
+         users.batman,
+         users.hulk,
+         users.blackPanther,
+         users.blackWidow,
+         users.captainAmerica,
+         users.daredevil,
+         users.strange,
+         users.venom
+       ]},
       {%User.Photo{title: "Do you know how is this ...man?!", url: "/image/gallery/me_09.jpg"},
-       [stark, batman]},
+       [users.spiderman, users.captainAmerica]},
       {%User.Photo{title: "Look at my big cigar", url: "/image/gallery/me_10.jpg"},
-       [stark, batman]},
-      {%User.Photo{title: "The world is on fire", url: "/image/gallery/me_11.jpg"},
-       [stark, batman]}
+       [users.batman, users.spiderman, users.superman]},
+      {%User.Photo{title: "The world is on fire", url: "/image/gallery/me_11.jpg"}, []}
     ]
 
     # Add stark photos
@@ -174,18 +213,12 @@ defmodule Backend.Data do
     |> Enum.map(fn {photoModel, likes} ->
       photoModel = Repo.preload(photoModel, :likes)
 
-      Ecto.build_assoc(stark, :photos, photoModel)
+      Ecto.build_assoc(users.stark, :photos, photoModel)
       |> Repo.insert!()
       |> Ecto.Changeset.change()
       |> Ecto.Changeset.put_assoc(:likes, likes)
       |> Repo.update!()
     end)
-
-    Ecto.build_assoc(batman, :avatar, %User.Avatar{
-      title: "avatar",
-      url: "/image/avatar/batman.jpg"
-    })
-    |> Repo.insert()
   end
 
   defp init_friends(%{stark: stark, batman: batman}) do
