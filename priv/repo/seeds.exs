@@ -21,9 +21,9 @@ defmodule Backend.Data do
     Repo.delete_all(User.Notification)
     Repo.delete_all(User.FriendInvite)
     Repo.delete_all(User.Friend)
+    Repo.delete_all(User.MuteUser)
     Repo.delete_all(User.Photo)
     Repo.delete_all(User.Post)
-    # Repo.delete_all(User.Ignore)
     Repo.delete_all(User.Avatar)
     Repo.delete_all(User)
   end
@@ -56,34 +56,83 @@ defmodule Backend.Data do
   defp init_users do
     IO.puts("Loading users...")
 
-    batmanModel =
-      Jason.decode!(
-        ~s({"username":"batman@gothem.com","firstname":"Bruce","lastname":"Wayne","city":"Gotham","about":"This city needs a new hero","gender":"male"})
-      )
-      |> Map.new(&keyToAtom/1)
-      |> Map.put(:birthdate, ~D[1970-01-01])
-      |> Map.put(:password, "qwerqwer")
+    userModels = [
+      {:stark,
+       ~s({"username":"Tony@stark.com","firstname":"Tony","lastname":"Stark","city":"New-York","gender":"male","patronymic":"Ironman","about":"Genius, Billionaire, Playboy, Philanthropist"}),
+       ~D[1980-08-01]},
+      {:batman,
+       ~s({"username":"batman@gothem.com","firstname":"Bruce","lastname":"Wayne","city":"Gotham","about":"This city needs a new hero","gender":"male"}),
+       ~D[1992-11-21]},
+      {:spiderman,
+       ~s({"username":"pspidy@nyc.com","firstname":"Peter","lastname":"Parker","city":"New-York","about":"With great power comes great responsibility","gender":"male" }),
+       ~D[1970-03-03]},
+      {:superman,
+       ~s({"username":"superman@nyc.com","firstname":"Clark","lastname":"Kent","city":"New-York","about":"My sin? - salvation of the world","gender":"male" }),
+       ~D[1987-04-01]},
+      {:wolverine,
+       ~s({"username":"wolverine@rats.com","firstname":"James","lastname":"Howlett","patronymic":"Logan","city":"Ottawa","about":"Want to take your brains out? You are welcome. Not here. I washed the floors here","gender":"male" }),
+       ~D[1991-05-21]},
+      {:captainAmerica,
+       ~s({"username":"captain@usa.com","firstname":"Steve","lastname":"Rogers","city":"Brooklyn","about":"When patriots become heroes","gender":"male" }),
+       ~D[1983-06-11]},
+      {:thor,
+       ~s({"username":"tor@azghard.com","firstname":"Thor","lastname":"Odison","city":"Asghard","about":"For every minute, the future is becoming the past","gender":"male" }),
+       ~D[1986-07-21]},
+      {:venom,
+       ~s({"username":"ediebrook@azghard.com","firstname":"Eddy","lastname":"Brock","city":"New-York","about":"Eyes, lungs, stomach, and would have eaten, but once.","gender":"male" }),
+       ~D[1987-08-13]},
+      {:blackWidow,
+       ~s({"username":"bwidnow@mail.ru","firstname":"Natalya","lastname":"Romanova","patronymic":"Ivanova","city":"Stalingrad","gender":"female" }),
+       ~D[1990-09-20]},
+      {:ant,
+       ~s({"username":"slang@gmail.com","firstname":"Scott","lastname":"Lang","city":"Florida","about":"Scott, you are an animal! No, I'm an insect!","gender":"male" }),
+       ~D[1977-10-10]},
+      {:marvel,
+       ~s({"username":"carol@marvel.com","firstname":"Carol","lastname":"Danvers","city":"Halu","about":"You know nothing about me","gender":"female" }),
+       ~D[1989-11-11]},
+      {:blackPanther,
+       ~s({"username":"king@vakanda.com","firstname":"T'","lastname":"Challa","city":"Vakanda","about":"Vakanda forever","gender":"male" }),
+       ~D[1987-12-21]},
+      {:strange,
+       ~s({"username":"drstrange@avengers.com","firstname":"Vincent","lastname":"Strange","city":"Philadelphy","about":"Beyond the brink of consciousness lies a new reality","gender":"male" }),
+       ~D[1992-01-31]},
+      {:hulk,
+       ~s({"username":"bigboy@nyc.com","firstname":"Robert","lastname":"Bruce","patronymic":"Banner","city":"New-York","about":"It's about time to added a little bit of anger","gender":"male" }),
+       ~D[1990-02-21]},
+      {:daredevil,
+       ~s({"username":"mardok@mail.com","firstname":"Matthew","lastname":"Murdock","patronymic":"Michael","city":"New-York","about":"The man without fear","gender":"male" }),
+       ~D[1976-04-18]},
+      {:deadpool,
+       ~s({"username":"asshole@nyc.com","firstname":"Wade","lastname":"Winston","patronymic":"Wilson","city":"New-York","about":"With great power comes great irresponsibility","gender":"male" }),
+       ~D[1975-05-08]},
+      {:quill,
+       ~s({"username":"quill@galaxy.com","firstname":"Peter","lastname":"Quill","patronymic":"Jason","city":"New-York","about":"Star-Lord","gender":"male" }),
+       ~D[1979-10-02]},
+      {:gamora,
+       ~s({"username":"gamora@tanos.com","firstname":"Gamora","lastname":"Long","city":"Kronos","about":"The Most Dangerous Woman in the Universe","gender":"female" }),
+       ~D[1999-03-30]},
+      {:drax,
+       ~s({"username":"chak@galaxy.com","firstname":"Arthur","lastname":"Sampson","patronymic":"Douglas","city":"Kronos","about":"Drax the Destroyer","gender":"male" }),
+       ~D[1989-11-21]},
+      {:pepper,
+       ~s({"username":"peper@stark.net","firstname":"Virginia","lastname":"Potts","patronymic":"Pepper","city":"New-York","gender":"female" }),
+       ~D[1978-06-11]}
+    ]
 
-    batman =
-      %User{}
-      |> User.changeset(batmanModel)
-      |> Repo.insert!()
+    Enum.reduce(userModels, %{}, fn {name, model, birthdate}, acc ->
+      preparedModel =
+        Jason.decode!(model)
+        |> Map.new(&keyToAtom/1)
+        |> Map.put(:birthdate, birthdate)
+        |> Map.put(:password, "qwerqwer")
 
-    starkModel =
-      Jason.decode!(
-        ~s({"username":"Tony@stark.com","firstname":"Tony","lastname":"Stark","city":"New-York","gender":"male","patronymic":"Ironman","avatar":"/image/avatar/me.jpg","about":"Genius, Billionaire, Playboy, Philanthropist"})
-      )
-      |> Map.new(&keyToAtom/1)
-      |> Map.put(:birthdate, ~D[1963-02-22])
-      |> Map.put(:password, "qwerqwer")
-      |> Map.put(:statistic, %{posts: 13, likes: 68})
+      user =
+        %User{}
+        |> User.changeset(preparedModel)
+        |> Repo.insert!()
 
-    stark =
-      %User{}
-      |> User.changeset(starkModel)
-      |> Repo.insert!()
-
-    %{stark: stark, batman: batman}
+      Map.put(acc, name, user)
+    end)
   end
 
   defp init_photos(%{stark: stark, batman: batman}) do
@@ -201,7 +250,7 @@ defmodule Backend.Data do
     |> Repo.update!()
   end
 
-  defp init_posts(%{stark: stark, batman: batman}) do
+  defp init_posts(users) do
     IO.puts("Loading posts...")
 
     %User.Post{}
@@ -211,12 +260,12 @@ defmodule Backend.Data do
         "The wait is over to bring home the biggest movie of all time! Marvel Studios' Avengers: Endgame is now available on Digital and Blu-ray, as of this week.",
       photo: "/image/post/post1.jpg",
       views: 10,
-      author_id: stark.id
+      author_id: users.stark.id
     })
     |> Repo.insert!()
     |> Repo.preload(:likes)
     |> Ecto.Changeset.change()
-    |> Ecto.Changeset.put_assoc(:likes, [batman, stark])
+    |> Ecto.Changeset.put_assoc(:likes, [users.batman, users.stark])
     |> Repo.update!()
   end
 
