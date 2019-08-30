@@ -1,19 +1,19 @@
 defmodule Backend.Schema.Guest do
   use Absinthe.Schema
-  alias Backend.Resolvers.Products
+  alias Backend.Resolvers.Person
 
   query do
-    field :get_products, list_of(:product) do
-      resolve(&Products.get_products/2)
+    field :get_users, list_of(:person) do
+      resolve(&Person.get_users/2)
     end
 
-  #   field :test, :string do
-  #     arg(:name, non_null(:string))
+    #   field :test, :string do
+    #     arg(:name, non_null(:string))
 
-  #     resolve(fn %{name: name}, _ ->
-  #       {:ok, "#{name} reply"}
-  #     end)
-  #   end
+    #     resolve(fn %{name: name}, _ ->
+    #       {:ok, "#{name} reply"}
+    #     end)
+    #   end
   end
 
   # subscription do
@@ -31,5 +31,14 @@ defmodule Backend.Schema.Guest do
     field(:name, non_null(:string))
     field(:price, :integer)
     field(:amount, :integer)
+  end
+
+  object :person do
+    field(:id, non_null(:id))
+    field(:username, non_null(:string))
+    field(:firstname, non_null(:string))
+    field(:lastname, non_null(:string))
+    field(:patronymic, :string)
+    field(:gender, :string)
   end
 end
