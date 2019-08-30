@@ -1,7 +1,9 @@
 defmodule Backend.User do
   use Ecto.Schema
   require Ecto.Query
+
   alias Backend.User.{Photo, FriendInvite, Avatar, Post, Notification, Friend, MuteUser}
+
   alias Backend.Chat
   import Ecto.Changeset
 

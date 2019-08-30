@@ -129,6 +129,7 @@ defmodule Backend.Data do
       user =
         %User{}
         |> User.changeset(preparedModel)
+        |> User.Encryption.hash_password()
         |> Repo.insert!()
 
       Map.put(acc, name, user)
