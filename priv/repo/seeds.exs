@@ -40,16 +40,15 @@ defmodule Backend.Data do
     IO.puts("Inserting data into db..")
 
     users = init_users()
-
-    init_avatars(users)
-    init_photos(users)
-    init_friends(users)
-
     chats = init_chats(users)
-    init_messages(users, chats)
 
-    init_posts(users)
-    init_notifications(users)
+    users
+    |> init_avatars
+    |> init_photos
+    |> init_friends
+    |> init_posts
+    |> init_notifications
+    |> init_messages(chats)
 
     IO.puts("Data has been insert!")
   end
@@ -166,6 +165,8 @@ defmodule Backend.Data do
       Ecto.build_assoc(users[name], :avatar, avatarModel)
       |> Repo.insert()
     end)
+
+    users
   end
 
   defp init_photos(users) do
@@ -219,6 +220,8 @@ defmodule Backend.Data do
       |> Ecto.Changeset.put_assoc(:likes, likes)
       |> Repo.update!()
     end)
+
+    users
   end
 
   defp init_friends(%{stark: stark, quill: quill} = users) do
@@ -246,6 +249,8 @@ defmodule Backend.Data do
     %User.MuteUser{}
     |> User.MuteUser.changeset(%{user_id: stark.id, mute_user_id: quill.id})
     |> Repo.insert!()
+
+    users
   end
 
   defp init_chats(%{stark: stark} = users) do
@@ -420,6 +425,8 @@ defmodule Backend.Data do
       |> Ecto.Changeset.put_assoc(:unread, [stark])
       |> Repo.update!()
     end)
+
+    users
   end
 
   defp init_posts(users) do
@@ -439,11 +446,14 @@ defmodule Backend.Data do
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:likes, [users.batman, users.stark])
     |> Repo.update!()
+
+    users
   end
 
   defp init_notifications(users) do
     IO.puts("Loading notifications..")
     # ...
+    users
   end
 
   defp keyToAtom({key, value}) do
