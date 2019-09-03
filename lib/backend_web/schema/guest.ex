@@ -19,6 +19,13 @@ defmodule Backend.Schema.Guest do
 
       resolve(&Person.register_user/3)
     end
+
+    @spec "Login user and return a jwt token"
+    field :login_user, :session do
+      arg(:input, non_null(:session_input))
+
+      resolve(&Person.login_user/3)
+    end
   end
 
   # subscription do

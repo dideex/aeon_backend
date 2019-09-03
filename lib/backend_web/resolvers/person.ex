@@ -1,7 +1,7 @@
 defmodule Backend.Resolvers.Person do
   import Ecto.Query, only: [from: 2]
   alias Backend.Endpoint
-  alias Backend.{User, Repo}
+  alias Backend.{User, Repo, Jwt}
 
   # Queries
   def get_users(_, _) do
@@ -11,6 +11,13 @@ defmodule Backend.Resolvers.Person do
   # Mutations
   def register_user(_, %{input: input}, _) do
     User.create_user(input)
+  end
+
+  def login_user(_, %{input: input}, _) do
+    with {:ok, user} <- User.Auth.authenticate(input),
+         {:ok, jwt_token, _} <- Jwt.encode_and_sign(user) do
+      {:ok, %{token: jwt_token, user: user}}
+    end
   end
 
   # def create_product(%{user_id: user_id, shop_id: shop_id} = data, _) do

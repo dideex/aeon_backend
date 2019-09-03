@@ -126,11 +126,7 @@ defmodule Backend.Data do
         |> Map.put(:birthdate, birthdate)
         |> Map.put(:password, "qwerqwer")
 
-      user =
-        %User{}
-        |> User.changeset(preparedModel)
-        |> User.Encryption.hash_password()
-        |> Repo.insert!()
+      {:ok, user} = User.create_user(preparedModel)
 
       Map.put(acc, name, user)
     end)

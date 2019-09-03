@@ -3,7 +3,17 @@ defmodule Backend.User do
   require Ecto.Query
 
   alias Backend.{Chat, Repo}
-  alias Backend.User.{Photo, FriendInvite, Avatar, Post, Notification, Friend, MuteUser}
+
+  alias Backend.User.{
+    Photo,
+    FriendInvite,
+    Avatar,
+    Post,
+    Notification,
+    Friend,
+    MuteUser,
+    Encryption
+  }
 
   import Ecto.Changeset
 
@@ -82,6 +92,9 @@ defmodule Backend.User do
   def create_user(attrs \\ %{}) do
     %__MODULE__{}
     |> changeset(attrs)
+    |> Encryption.hash_password()
     |> Repo.insert()
   end
+
+  def get_user!(id, _), do: Repo.get_by!(__MODULE__, id)
 end

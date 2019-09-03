@@ -38,7 +38,8 @@ defmodule Backend.MixProject do
       {:absinthe_phoenix, "~> 1.4"},
       {:absinthe_plug, "~> 1.4"},
       {:comeonin, "~> 3.2"},
-      {:poison, "~> 2.1.0"}
+      {:poison, "~> 2.1.0"},
+      {:guardian, "~> 1.2"}
     ]
   end
 
