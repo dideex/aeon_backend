@@ -2,6 +2,9 @@ defmodule Backend.Schema.Guest do
   use Absinthe.Schema
   alias Backend.Resolvers.Person
 
+  # import types
+  import_types(Backend.Schema.Types)
+
   query do
     field :get_users, list_of(:person) do
       resolve(&Person.get_users/2)
@@ -25,20 +28,4 @@ defmodule Backend.Schema.Guest do
   #     end)
   #   end
   # end
-
-  object :product do
-    field(:id, non_null(:id))
-    field(:name, non_null(:string))
-    field(:price, :integer)
-    field(:amount, :integer)
-  end
-
-  object :person do
-    field(:id, non_null(:id))
-    field(:username, non_null(:string))
-    field(:firstname, non_null(:string))
-    field(:lastname, non_null(:string))
-    field(:patronymic, :string)
-    field(:gender, :string)
-  end
 end

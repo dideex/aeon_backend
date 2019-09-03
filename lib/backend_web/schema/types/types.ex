@@ -1,0 +1,6 @@
+defmodule Backend.Schema.Types do
+  use Absinthe.Schema.Notation
+  alias Backend.Schema.Types
+
+  import_types(Types.Person)
+end

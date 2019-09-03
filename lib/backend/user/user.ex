@@ -60,6 +60,7 @@ defmodule Backend.User do
     user
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> update_change(:username, &String.downcase(&1))
     |> unique_constraint(:username)
   end
 

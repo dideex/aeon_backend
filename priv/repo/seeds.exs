@@ -50,7 +50,7 @@ defmodule Backend.Data do
     |> init_notifications
     |> init_messages(chats)
 
-    IO.puts("Data has been insert!")
+    IO.puts("Data has been inserted!")
   end
 
   defp init_users do
