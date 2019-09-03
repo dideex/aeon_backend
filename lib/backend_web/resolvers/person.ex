@@ -4,7 +4,7 @@ defmodule Backend.Resolvers.Person do
   alias Backend.{User, Repo}
 
   def get_users(_, _) do
-    {:ok, User |> Repo.all()}
+    {:ok, User.get_all()}
   end
 
   # def create_product(%{user_id: user_id, shop_id: shop_id} = data, _) do

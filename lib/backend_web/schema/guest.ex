@@ -6,6 +6,7 @@ defmodule Backend.Schema.Guest do
   import_types(Backend.Schema.Types)
 
   query do
+    @spec "Test query returns user list"
     field :get_users, list_of(:person) do
       resolve(&Person.get_users/2)
     end

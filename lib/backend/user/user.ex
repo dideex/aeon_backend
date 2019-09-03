@@ -2,9 +2,9 @@ defmodule Backend.User do
   use Ecto.Schema
   require Ecto.Query
 
+  alias Backend.{Chat, Repo}
   alias Backend.User.{Photo, FriendInvite, Avatar, Post, Notification, Friend, MuteUser}
 
-  alias Backend.Chat
   import Ecto.Changeset
 
   @required_fields ~w(username firstname lastname birthdate password)a
@@ -72,5 +72,10 @@ defmodule Backend.User do
     __MODULE__
     |> Ecto.Query.last()
     |> Backend.Repo.one()
+  end
+
+  def get_all do
+    __MODULE__
+    |> Repo.all()
   end
 end
