@@ -10,14 +10,15 @@ defmodule Backend.Schema.Guest do
     field :get_users, list_of(:person) do
       resolve(&Person.get_users/2)
     end
+  end
 
-    #   field :test, :string do
-    #     arg(:name, non_null(:string))
+  mutation do
+    @spec "Register a new user"
+    field :register_user, :person do
+      arg(:input, non_null(:person_input))
 
-    #     resolve(fn %{name: name}, _ ->
-    #       {:ok, "#{name} reply"}
-    #     end)
-    #   end
+      resolve(&Person.register_user/3)
+    end
   end
 
   # subscription do

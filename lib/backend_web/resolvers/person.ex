@@ -3,8 +3,14 @@ defmodule Backend.Resolvers.Person do
   alias Backend.Endpoint
   alias Backend.{User, Repo}
 
+  # Queries
   def get_users(_, _) do
     {:ok, User.get_all()}
+  end
+
+  # Mutations
+  def register_user(_, %{input: input}, _) do
+    User.create_user(input)
   end
 
   # def create_product(%{user_id: user_id, shop_id: shop_id} = data, _) do
