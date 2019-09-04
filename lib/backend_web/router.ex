@@ -1,7 +1,17 @@
 defmodule BackendWeb.Router do
   use BackendWeb, :router
 
+  pipeline :guest do
+    plug(:accepts, ["json"])
+  end
+
+  pipeline :user do
+    plug(:accepts, ["json"])
+    plug(Backend.Plugs.Context)
+  end
+
   scope "/guest" do
+    pipe_through :guest
     forward(
       "/graphql",
       Absinthe.Plug.GraphiQL,
@@ -11,6 +21,7 @@ defmodule BackendWeb.Router do
   end
 
   scope "/user" do
+    pipe_through :user
     get(
       "/graphql",
       Absinthe.Plug.GraphiQL,

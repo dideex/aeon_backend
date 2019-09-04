@@ -8,6 +8,12 @@ defmodule Backend.Resolvers.Person do
     {:ok, User.get_all()}
   end
 
+  # Queries
+  def get_users(_, _, %{context: context}) do
+    IO.inspect(context)
+    {:ok, User.get_all()}
+  end
+
   # Mutations
   def register_user(_, %{input: input}, _) do
     User.create_user(input)

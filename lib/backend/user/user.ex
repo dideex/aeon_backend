@@ -96,5 +96,5 @@ defmodule Backend.User do
     |> Repo.insert()
   end
 
-  def get_user!(id, _), do: Repo.get_by!(__MODULE__, id)
+  def get_user!(id), do: Repo.get!(__MODULE__, id)
 end
