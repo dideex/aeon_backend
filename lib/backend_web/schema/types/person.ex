@@ -15,8 +15,14 @@ defmodule Backend.Schema.Types.Person do
     field(:password, non_null(:string))
     field(:firstname, non_null(:string))
     field(:lastname, non_null(:string))
+    field(:birthdate, non_null(:birthdate_input))
     field(:gender, :string)
     field(:city, :string)
-    field(:birthdate, :string)
+  end
+
+  input_object :birthdate_input do
+    field(:month, non_null(:integer))
+    field(:year, non_null(:integer))
+    field(:day, non_null(:integer))
   end
 end

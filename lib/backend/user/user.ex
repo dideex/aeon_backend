@@ -17,8 +17,8 @@ defmodule Backend.User do
 
   import Ecto.Changeset
 
-  @required_fields ~w(username firstname lastname password)a
-  @optional_fields ~w(gender birthdate patronymic city about statistic policy notification_policy)a
+  @required_fields ~w(username firstname lastname password birthdate)a
+  @optional_fields ~w(gender patronymic city about statistic policy notification_policy)a
 
   schema "users" do
     field(:username, :string, unique: true)
