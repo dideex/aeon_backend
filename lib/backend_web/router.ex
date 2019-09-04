@@ -10,7 +10,7 @@ defmodule BackendWeb.Router do
     plug(Backend.Plugs.Context)
   end
 
-  scope "/guest" do
+  scope "/" do
     pipe_through :guest
     forward(
       "/graphql",

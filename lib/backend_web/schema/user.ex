@@ -10,5 +10,10 @@ defmodule Backend.Schema.User do
     field :get_users, list_of(:person) do
       resolve(&Person.get_users/3)
     end
+
+    @spec "Get all my info by token"
+    field :me, :person do
+      resolve(&Person.me/3)
+    end
   end
 end
