@@ -1,9 +1,9 @@
 defmodule Backend.Resolvers.Products do
-  alias Backend.{Product, Repo, Shop}
-  import Ecto.Query, only: [from: 2]
-  alias Backend.Endpoint
+  # alias Backend.{Product, Repo, Shop}
+  # import Ecto.Query, only: [from: 2]
+  # alias Backend.Endpoint
 
-  def get_products(%{user_id: user_id}, _) do
+  # def get_products(%{user_id: user_id}, _) do
     # query =
     #   from(products in Product,
     #     join: shops in Shop,
@@ -12,8 +12,8 @@ defmodule Backend.Resolvers.Products do
     #   )
 
     # {:ok, query |> Repo.all()}
-    nil
-  end
+  #   nil
+  # end
 
   def get_products(_, _) do
     # {:ok, Product |> Repo.all()}

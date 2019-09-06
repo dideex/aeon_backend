@@ -40,7 +40,7 @@ defmodule Backend.MixProject do
       {:comeonin, "~> 3.2"},
       {:poison, "~> 2.1.0"},
       {:guardian, "~> 1.2"},
-      {:cors_plug, "~> 1.5"},
+      {:cors_plug, "~> 1.5"}
     ]
   end
 

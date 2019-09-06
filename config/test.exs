@@ -5,7 +5,7 @@ config :backend, Backend.Repo,
   database: "aeon_db_test",
   username: "postgres",
   password: "postgres",
-  hostname: "localhost"
+  hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,

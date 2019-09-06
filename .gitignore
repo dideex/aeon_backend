@@ -24,3 +24,6 @@ backend-*.tar
 
 # postgress db
 /db_data/
+
+# Other shit dirs
+.elixir_ls

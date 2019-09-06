@@ -1,7 +1,7 @@
 defmodule Backend.Resolvers.Person do
-  import Ecto.Query, only: [from: 2]
-  alias Backend.Endpoint
-  alias Backend.{User, Repo, Jwt}
+  # import Ecto.Query, only: [from: 2]
+  # alias Backend.Endpoint
+  alias Backend.{User, Jwt}
 
   # Queries
   def get_users(_, _) do
@@ -10,6 +10,7 @@ defmodule Backend.Resolvers.Person do
 
   # Queries
   def get_users(_, _, %{context: context}) do
+    IO.inspect(context)
     {:ok, User.get_all()}
   end
 
