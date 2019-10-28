@@ -9,7 +9,8 @@ config :backend, Backend.Repo,
   password: "postgres",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  port: 5430
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -18,7 +19,7 @@ config :backend, Backend.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :backend, BackendWeb.Endpoint,
-  http: [port: 5000],
+  http: [port: System.get_env("PORT") || 5000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
