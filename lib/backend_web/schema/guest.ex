@@ -27,7 +27,7 @@ defmodule Backend.Schema.Guest do
       resolve(&Person.login_user/3)
     end
 
-    @spec "Get all my info by a token"
+    @spec "Get all my info with token"
     field :me, :person do
       resolve(&Person.me/3)
     end
