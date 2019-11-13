@@ -8,8 +8,13 @@ defmodule Backend.Schema.User do
   query do
     @spec "Test query returns user list"
     field :get_users, list_of(:person) do
-      resolve(&Person.get_users/3)
+      resolve(&Person.get_users/2)
     end
+
+    # @spec "Test query returns user list"
+    # field :get_users, list_of(:person) do
+    #   resolve(&Person.get_users/2)
+    # end
 
     @spec "Get all my info by a token"
     field :me, :person do

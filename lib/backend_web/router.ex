@@ -3,12 +3,12 @@ defmodule BackendWeb.Router do
 
   pipeline :guest do
     plug(:accepts, ["json"])
-    plug(CORSPlug, origin: "*")
+    # plug(CORSPlug, origin: "*")
   end
 
   pipeline :user do
     plug(:accepts, ["json"])
-    plug(CORSPlug, origin: "*")
+    # plug(CORSPlug, origin: "*")
     plug(Backend.Plugs.Context)
   end
 
