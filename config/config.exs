@@ -22,10 +22,9 @@ config :comeonin, :bcrypt_log_rounds, 4
 
 # Configure jwt-token generator
 config :backend, Backend.Jwt,
-issuer: "backend",
-secret_key: "secret_key"
+  issuer: "backend",
+  secret_key: "secret_key"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
-

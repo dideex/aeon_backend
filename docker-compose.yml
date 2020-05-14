@@ -18,11 +18,3 @@ services:
       - ./db_data:/redis
     ports:
       - '6380:6379'
-
-  db_posgres_pgadmin:
-    image: dpage/pgadmin4
-    ports:
-      - '5001:80'
-    environment:
-      PGADMIN_DEFAULT_EMAIL: postgres
-      PGADMIN_DEFAULT_PASSWORD: postgres
