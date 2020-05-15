@@ -1,4 +1,4 @@
-defmodule Backend.Chat.Unread do
+defmodule Backend.Repo.Chat.Unread do
   use Ecto.Schema
   import Ecto.Changeset
 

@@ -1,15 +1,13 @@
-defmodule Backend.User.MuteUser do
+defmodule Backend.Repo.User.Friend do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields ~w(mute_user_id)a
+  @required_fields ~w(friend_id)a
   @optional_fields ~w(user_id)a
 
-  schema "mute_users" do
+  schema "friends" do
     belongs_to(:user, Backend.User)
-    field(:mute_user_id, :integer)
-
-    timestamps(inserted_at: :created_at)
+    field(:friend_id, :integer)
   end
 
   def changeset(user, attrs) do

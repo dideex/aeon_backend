@@ -1,4 +1,4 @@
-defmodule Backend.User do
+defmodule Backend.Repo.User do
   use Ecto.Schema
   require Ecto.Query
 

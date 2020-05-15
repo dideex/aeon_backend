@@ -1,4 +1,4 @@
-defmodule Backend.User.PhotoLike do
+defmodule Backend.Repo.User.PhotoLike do
   use Ecto.Schema
 
   schema "photo_likes" do

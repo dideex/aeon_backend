@@ -1,4 +1,4 @@
-defmodule Backend.User.Notification do
+defmodule Backend.Repo.User.Notification do
   use Ecto.Schema
   import Ecto.Changeset
 

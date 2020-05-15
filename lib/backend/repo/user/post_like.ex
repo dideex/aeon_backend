@@ -1,4 +1,4 @@
-defmodule Backend.User.PostLike do
+defmodule Backend.Repo.User.PostLike do
   use Ecto.Schema
 
   schema "post_likes" do

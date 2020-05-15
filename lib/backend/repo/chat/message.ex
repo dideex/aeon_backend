@@ -1,4 +1,4 @@
-defmodule Backend.Chat.Message do
+defmodule Backend.Repo.Chat.Message do
   use Ecto.Schema
   import Ecto.Changeset
 
