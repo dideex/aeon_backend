@@ -1,6 +1,6 @@
 defmodule Backend.Jwt do
   use Guardian, otp_app: :backend
-  alias Backend.User
+  alias Backend.Repo.User
 
   def subject_for_token(%User{} = user, _claims) do
     {:ok, to_string(user.id)}

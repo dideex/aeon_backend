@@ -19,6 +19,7 @@ defmodule BackendWeb.Router do
       "/graphql",
       Absinthe.Plug.GraphiQL,
       schema: Backend.Schema.Guest,
+      interface: :playground,
       socket_url: "http://localhost:4000/guest"
     )
   end
@@ -30,6 +31,7 @@ defmodule BackendWeb.Router do
       "/graphql",
       Absinthe.Plug.GraphiQL,
       schema: Backend.Schema.User,
+      interface: :playground,
       socket_url: "http://localhost:4000/user"
     )
 
@@ -37,6 +39,7 @@ defmodule BackendWeb.Router do
       "/graphql",
       Absinthe.Plug.GraphiQL,
       schema: Backend.Schema.User,
+      interface: :playground,
       socket_url: "http://localhost:4000/user"
     )
   end

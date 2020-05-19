@@ -16,7 +16,7 @@ defmodule Backend.Schema.User do
     #   resolve(&Person.get_users/2)
     # end
 
-    @spec "Get all my info by a token"
+    @spec "Get all my info by the token"
     field :me, :person do
       resolve(&Person.me/3)
     end

@@ -1,7 +1,9 @@
 defmodule Backend.Resolvers.Person do
   # import Ecto.Query, only: [from: 2]
   # alias Backend.Endpoint
-  alias Backend.{User, Jwt}
+  alias Backend.Jwt
+  alias Backend.Repo.User
+  alias Backend.User.Auth
 
   # Queries
   def get_users(_, _) do
@@ -24,8 +26,8 @@ defmodule Backend.Resolvers.Person do
   end
 
   def login_user(_, %{input: input}, _) do
-    with {:ok, user} <- User.Auth.authenticate(input),
-         {:ok, jwt_token, _} <- Jwt.encode_and_sign(user) do
+    with {:ok, user} <- Auth.authenticate(input) |> IO.inspect(),
+         {:ok, jwt_token, _} <- Jwt.encode_and_sign(user) |> IO.inspect() do
       {:ok, %{token: jwt_token, user: user}}
     end
   end

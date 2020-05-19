@@ -1,8 +1,8 @@
 defmodule Backend.User.Auth do
-  alias Backend.{Repo, User}
+  alias Backend.Repo
 
   def authenticate(%{username: username, password: password}) do
-    user = Repo.get_by(User, username: String.downcase(username))
+    user = Repo.get_by(Repo.User, username: String.downcase(username))
 
     case check_password(user, password) do
       true -> {:ok, user}
