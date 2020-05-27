@@ -1,5 +1,5 @@
 defmodule Backend.User.Auth do
-  alias Backend.Repo
+  alias Backend.{Repo, User}
 
   def authenticate(%{username: username, password: password}) do
     user = Repo.get_by(Repo.User, username: String.downcase(username))
