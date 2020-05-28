@@ -12,7 +12,7 @@ defmodule Backend.Resolvers.Person do
 
   # Queries
   def get_users(_, _, %{context: context}) do
-    IO.inspect(context)
+    # IO.inspect(context)
     {:ok, User.get_all()}
   end
 

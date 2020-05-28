@@ -12,19 +12,19 @@ defmodule BackendWeb.Router do
     plug(Backend.Plugs.Context)
   end
 
+  # scope "/" do
+  #   pipe_through(:guest)
+
+  #   forward(
+  #     "/graphql",
+  #     Absinthe.Plug.GraphiQL,
+  #     schema: Backend.Schema.Guest,
+  #     interface: :playground,
+  #     socket_url: "http://localhost:4000/guest"
+  #   )
+  # end
+
   scope "/" do
-    pipe_through(:guest)
-
-    forward(
-      "/graphql",
-      Absinthe.Plug.GraphiQL,
-      schema: Backend.Schema.Guest,
-      interface: :playground,
-      socket_url: "http://localhost:4000/guest"
-    )
-  end
-
-  scope "/user" do
     pipe_through(:user)
 
     get(
@@ -32,7 +32,7 @@ defmodule BackendWeb.Router do
       Absinthe.Plug.GraphiQL,
       schema: Backend.Schema.User,
       interface: :playground,
-      socket_url: "http://localhost:4000/user"
+      socket_url: "http://localhost:4000/"
     )
 
     post(
@@ -40,7 +40,7 @@ defmodule BackendWeb.Router do
       Absinthe.Plug.GraphiQL,
       schema: Backend.Schema.User,
       interface: :playground,
-      socket_url: "http://localhost:4000/user"
+      socket_url: "http://localhost:4000/"
     )
   end
 end
