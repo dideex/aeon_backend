@@ -1,10 +1,11 @@
 defmodule BackendWeb.Router do
   use BackendWeb, :router
 
-  pipeline :guest do
-    plug(:accepts, ["json"])
-    # plug(CORSPlug, origin: "*")
-  end
+  # pipeline :guest do
+  #   plug(:accepts, ["json"])
+  #   # plug(CORSPlug, origin: "*")
+  #   plug(Backend.Plugs.Context)
+  # end
 
   pipeline :user do
     plug(:accepts, ["json"])
