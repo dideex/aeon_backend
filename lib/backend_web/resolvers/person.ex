@@ -11,12 +11,11 @@ defmodule Backend.Resolvers.Person do
   end
 
   # Queries
-  def get_users(_, _, %{context: context}) do
+  def get_users(_, _, %{context: _context}) do
     {:ok, User.get_all()}
   end
 
-  def me(_, _, ctx) do
-    %{context: %{current_user: user}} = ctx
+  def me(_, _, %{context: %{current_user: user}}) do
     {:ok, user}
   end
 

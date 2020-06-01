@@ -10,6 +10,15 @@ defmodule Backend.Schema.Types.Person do
     field(:gender, :string)
   end
 
+  object :post do
+    field :id, :id
+    field :created, :string
+    field :title, :string
+    field :body, :string
+    field :photo, :string
+    field :views, :integer
+  end
+
   input_object :person_input do
     field(:username, non_null(:string))
     field(:password, non_null(:string))

@@ -1,6 +1,7 @@
 defmodule Backend.Schema.User do
   use Absinthe.Schema
-  alias Backend.Resolvers.Person
+
+  alias Backend.Resolvers.{Person, Post}
 
   import_types(Backend.Schema.Types)
 
@@ -13,6 +14,12 @@ defmodule Backend.Schema.User do
     @spec "Get all my info by the token"
     field :me, :person do
       resolve(&Person.me/3)
+    end
+
+    field :posts, list_of(:post) do
+      arg(:user_id, non_null(:string))
+
+      resolve(&Post.by_user_id/2)
     end
   end
 
@@ -36,5 +43,4 @@ defmodule Backend.Schema.User do
       resolve(&Person.me/3)
     end
   end
-
 end
