@@ -12,7 +12,7 @@ defmodule Backend.Schema.Types.Person do
 
   object :post do
     field :id, :id
-    field :created, :string
+    field :created, :integer
     field :title, :string
     field :body, :string
     field :photo, :string
