@@ -12,7 +12,6 @@ defmodule Backend.Resolvers.Post do
   end
 
   defp add_timestamp(%{created_at: created_at} = post) do
-    IO.inspect(created_at, label: :created)
     timestamp =
       created_at
       |> DateTime.from_naive!("Etc/UTC")
