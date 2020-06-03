@@ -1,15 +1,16 @@
 defmodule Backend.Repo.User.Photo do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Backend.Repo.User
 
-  @required_fields ~w(title url)a
+  @required_fields ~w(title url user_id)a
 
   schema "photos" do
     field(:title, :string)
     field(:url, :string)
 
-    belongs_to(:user, Backend.User)
-    many_to_many(:likes, Backend.User, join_through: "photo_likes")
+    belongs_to(:user, User)
+    many_to_many(:likes, User, join_through: "photo_likes")
 
     timestamps(inserted_at: :created_at)
   end

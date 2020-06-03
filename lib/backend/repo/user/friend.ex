@@ -1,4 +1,5 @@
 defmodule Backend.Repo.User.Friend do
+  alias Backend.Repo.User
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -6,7 +7,7 @@ defmodule Backend.Repo.User.Friend do
   @optional_fields ~w(user_id)a
 
   schema "friends" do
-    belongs_to(:user, Backend.User)
+    belongs_to(:user, User)
     field(:friend_id, :integer)
   end
 

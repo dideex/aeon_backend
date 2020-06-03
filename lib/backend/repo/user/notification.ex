@@ -2,7 +2,7 @@ defmodule Backend.Repo.User.Notification do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields ~w(title type body user)a
+  @required_fields ~w(title type body user_id)a
   @optional_fields ~w(unread)a
 
   schema "posts" do

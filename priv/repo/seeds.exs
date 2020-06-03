@@ -1,6 +1,6 @@
 defmodule Backend.Data do
   require Ecto.Query
-  alias Backend.{Repo, User, Chat}
+  alias Backend.{Repo, Repo.User, Repo.Chat, Notification}
   # alias Ecto.Query
 
   def generate() do
@@ -449,6 +449,30 @@ defmodule Backend.Data do
 
   defp init_notifications(users) do
     IO.puts("Loading notifications..")
+
+    noties = [
+      %{
+        title: "Title #1",
+        body: "Body some text here ... !!?",
+        type: "chat"
+      },
+      %{
+        title: "Title #2",
+        body: "Body some text here ... !!?",
+        type: "chat"
+      },
+      %{
+        title: "Title #3",
+        body: "Body some text here ... !!?",
+        type: "chat"
+      }
+    ]
+
+    users
+    |> Enum.each(fn user_id ->
+      Enum.each(noties, &Notification.create(Map.put(&1, :user_id, user_id)))
+    end)
+
     # ...
     users
   end

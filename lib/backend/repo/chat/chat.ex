@@ -1,4 +1,5 @@
 defmodule Backend.Repo.Chat do
+  alias Backend.Repo.{Chat, User}
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -10,10 +11,10 @@ defmodule Backend.Repo.Chat do
     field(:image, :string, default: "")
     field(:group, :boolean, default: false)
 
-    belongs_to(:owner, Backend.User)
-    has_many(:messages, Backend.Chat.Message)
-    has_many(:chat_invites, Backend.Chat.Invite)
-    many_to_many(:members, Backend.User, join_through: "chat_members")
+    belongs_to(:owner, User)
+    has_many(:messages, Chat.Message)
+    has_many(:chat_invites, Chat.Invite)
+    many_to_many(:members, User, join_through: "chat_members")
 
     timestamps(inserted_at: :created_at)
   end

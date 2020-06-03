@@ -1,4 +1,4 @@
-defmodule Backend.User.FriendInvite do
+defmodule Backend.Repo.User.FriendInvite do
   use Ecto.Schema
   import Ecto.Changeset
 

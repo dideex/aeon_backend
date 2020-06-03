@@ -2,17 +2,16 @@ defmodule Backend.Repo.User do
   use Ecto.Schema
   require Ecto.Query
 
-  alias Backend.{Chat, Repo}
+  alias Backend.{Repo, Repo.Chat, User.Encryption}
 
-  alias Backend.User.{
+  alias Repo.User.{
     Photo,
     FriendInvite,
     Avatar,
     Post,
     Notification,
     Friend,
-    MuteUser,
-    Encryption
+    MuteUser
   }
 
   import Ecto.Changeset

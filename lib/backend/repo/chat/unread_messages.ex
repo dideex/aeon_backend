@@ -1,12 +1,13 @@
 defmodule Backend.Repo.Chat.Unread do
+  alias Backend.Repo.{Chat, User}
   use Ecto.Schema
   import Ecto.Changeset
 
   @optional_fields ~w(user_id message_id)a
 
   schema "unread_messages" do
-    belongs_to(:user, Backend.User)
-    belongs_to(:message, Backend.Chat.Message)
+    belongs_to(:user, User)
+    belongs_to(:message, Chat.Message)
   end
 
   def changeset(message, attrs) do

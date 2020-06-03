@@ -1,4 +1,5 @@
 defmodule Backend.Repo.Chat.Message do
+  alias Backend.Repo.{Chat, User}
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -8,9 +9,9 @@ defmodule Backend.Repo.Chat.Message do
   schema "messages" do
     field(:body, :string)
 
-    belongs_to(:sender, Backend.User)
-    belongs_to(:chat, Backend.Chat)
-    many_to_many(:unread, Backend.User, join_through: "unread_messages")
+    belongs_to(:sender, User)
+    belongs_to(:chat, Chat)
+    many_to_many(:unread, User, join_through: "unread_messages")
 
     timestamps(inserted_at: :created_at)
   end
