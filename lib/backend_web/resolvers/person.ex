@@ -1,7 +1,7 @@
 defmodule Backend.Resolvers.Person do
   # import Ecto.Query, only: [from: 2]
   # alias Backend.Endpoint
-  alias Backend.Jwt
+  alias Backend.{Jwt, Notification}
   alias Backend.Repo.User
   alias Backend.User.Auth
 
@@ -29,6 +29,11 @@ defmodule Backend.Resolvers.Person do
          {:ok, jwt_token, _} <- Jwt.encode_and_sign(user) |> IO.inspect() do
       {:ok, %{token: jwt_token, user: user}}
     end
+  end
+
+  def notification(_, %{context: %{current_user: user}}) do
+    data = Notification.get(user.id)
+    {:ok, data}
   end
 
   # def create_product(%{user_id: user_id, shop_id: shop_id} = data, _) do

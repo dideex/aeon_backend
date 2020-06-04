@@ -19,6 +19,13 @@ defmodule Backend.Schema.Types.Person do
     field :views, :integer
   end
 
+  object :notification do
+    field :id, :id
+    field :title, :string
+    field :body, :string
+    field :type, :string
+  end
+
   input_object :person_input do
     field(:username, non_null(:string))
     field(:password, non_null(:string))

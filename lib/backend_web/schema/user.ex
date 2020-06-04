@@ -21,6 +21,10 @@ defmodule Backend.Schema.User do
 
       resolve(&Post.by_user_id/2)
     end
+
+    field :notifications, list_of(:notification) do
+      resolve(&Person.notification/2)
+    end
   end
 
   mutation do

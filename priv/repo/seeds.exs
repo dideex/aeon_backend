@@ -447,33 +447,17 @@ defmodule Backend.Data do
     users
   end
 
-  defp init_notifications(users) do
+  def init_notifications(users) do
     IO.puts("Loading notifications..")
 
     noties = [
-      %{
-        title: "Title #1",
-        body: "Body some text here ... !!?",
-        type: "chat"
-      },
-      %{
-        title: "Title #2",
-        body: "Body some text here ... !!?",
-        type: "chat"
-      },
-      %{
-        title: "Title #3",
-        body: "Body some text here ... !!?",
-        type: "chat"
-      }
+      %{ title: "Title #1", body: "Body some text here ... !!?", type: "chat" },
+      %{ title: "Title #2", body: "Body some text here ... !!?", type: "chat" },
+      %{ title: "Title #3", body: "Body some text here ... !!?", type: "chat" }
     ]
 
-    users
-    |> Enum.each(fn user_id ->
-      Enum.each(noties, &Notification.create(Map.put(&1, :user_id, user_id)))
-    end)
+    Enum.map(noties, &Notification.create(Map.put(&1, :user_id, users.stark.id))) |> IO.inspect(label: :created)
 
-    # ...
     users
   end
 

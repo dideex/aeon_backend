@@ -5,7 +5,7 @@ defmodule Backend.Repo.User.Notification do
   @required_fields ~w(title type body user_id)a
   @optional_fields ~w(unread)a
 
-  schema "posts" do
+  schema "notifications" do
     field(:title, :string)
     field(:body, :string)
     field(:type, :string)
