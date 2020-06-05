@@ -4,4 +4,5 @@ defmodule Backend.Schema.Types do
 
   import_types(Types.Session)
   import_types(Types.Person)
+  import_types(Types.Chat)
 end

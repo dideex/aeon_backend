@@ -1,7 +1,7 @@
 defmodule Backend.Schema.User do
   use Absinthe.Schema
 
-  alias Backend.Resolvers.{Person, Post}
+  alias Backend.Resolvers.{Person, Post, Chat}
 
   import_types(Backend.Schema.Types)
 
@@ -24,6 +24,10 @@ defmodule Backend.Schema.User do
 
     field :notifications, list_of(:notification) do
       resolve(&Person.notification/2)
+    end
+
+    field :chat_messages, list_of(:chat_message) do
+      resolve(&Chat.all_messages/2)
     end
   end
 
