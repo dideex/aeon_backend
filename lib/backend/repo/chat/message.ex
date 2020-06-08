@@ -3,8 +3,8 @@ defmodule Backend.Repo.Chat.Message do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields ~w(body)a
-  @optional_fields ~w(chat_id sender_id)a
+  @required_fields ~w(body chat_id)a
+  @optional_fields ~w(sender_id)a
 
   schema "messages" do
     field(:body, :string)

@@ -5,5 +5,6 @@ defmodule Backend.Schema.Types.Chat do
     field(:id, non_null(:id))
     field(:body, non_null(:string))
     field(:sender, non_null(:person))
+    field(:created, :integer)
   end
 end
