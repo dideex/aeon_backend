@@ -26,6 +26,10 @@ defmodule Backend.Schema.User do
       resolve(&Person.notification/2)
     end
 
+    field :chat_topics, list_of(:chat_topic) do
+      resolve(&Chat.topics/2)
+    end
+
     field :chat_messages, list_of(:chat_message) do
       resolve(&Chat.all_messages/2)
     end
